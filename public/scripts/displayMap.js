@@ -7,18 +7,18 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("googleMap"),mapProp)
 
   for (let i = 0; i < 360; i+=10) {
-    addPoint(43.6446447 + Math.cos(i) * 0.001,-79.3949987 + Math.sin(i) * 0.001)
+    addPoint(43.6446447 + Math.cos(i*(Math.PI/180)) * 0.001,-79.3949987 + Math.sin(i*(Math.PI/180)) * 0.001, i)
   }
 }
 
-function addPoint(lat, lng) {
+function addPoint(lat, lng, message) {
     let marker = new google.maps.Marker({
     position: new google.maps.LatLng(lat, lng),
     map: map,
-    title: 'Hello World!'
+    title: message
   })
 
   marker.addListener('click', function() {
-    alert("Ouch")
+    alert(message)
   })
 }
