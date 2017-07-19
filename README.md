@@ -1,4 +1,4 @@
-# Wikimap
+# :city_sunrise: Wikimap :city_sunset:
 
 * Jonathan Lam
 * Arnold Chan
