@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const PORT        = process.env.PORT || 8080;
 const ENV         = process.env.ENV || "development";
+const GOOGLEMAPS_APIKEY = process.env.GOOGLEMAPS_APIKEY;
 const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
@@ -40,7 +41,8 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY };
+  res.render("index", templateVars);
 });
 
 app.listen(PORT, () => {
