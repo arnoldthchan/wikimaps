@@ -15,10 +15,11 @@ function addPoint(lat, lng, message) {
     let marker = new google.maps.Marker({
     position: new google.maps.LatLng(lat, lng),
     map: map,
-    title: message
+    title: String(message)
   })
 
   marker.addListener('click', function() {
-    alert(message)
+    map.setCenter(this.getPosition())
+    console.log(message)
   })
 }
