@@ -1,3 +1,14 @@
+let iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/'
+let markerColours = [
+  'red.png',
+  'orange.png',
+  'yellow.png',
+  'green.png',
+  'blue.png',
+  'purple.png',
+  'pink.png'
+]
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -11,15 +22,7 @@ function initMap() {
   // init map
   map = new google.maps.Map(document.getElementById("googleMap"),mapProp)
 
-  //add listener for adding markers
-  google.maps.event.addListener(map, 'click', (event) => {
-    addPoint(event.latLng.lat(), event.latLng.lng(), 'Hi')
-  })
-
-  // Add markers
-  // for (let i = 0; i < 360; i+=10) {
-  //   addPoint(43.6446447 + Math.cos(i*(Math.PI/180)) * 0.001,-79.3949987 + Math.sin(i*(Math.PI/180)) * 0.001, i)
-  // }
+  map.setOptions({draggableCursor:''});
 
   // Hide POI
   // let styles = {
@@ -32,22 +35,22 @@ function initMap() {
   // }
 
   // map.setOptions({styles: styles['default']})
+
+  //add listener for adding markers
+  google.maps.event.addListener(map, 'click', (event) => {
+    console.log(event.latLng.lat(), event.latLng.lng())
+    addPoint(event.latLng.lat(), event.latLng.lng(), 'Hi')
+  })
+
+  // Add markers
+  // for (let i = 0; i < 360; i+=10) {
+  //   addPoint(43.6446447 + Math.cos(i*(Math.PI/180)) * 0.001,-79.3949987 + Math.sin(i*(Math.PI/180)) * 0.001, i)
+  // }
 }
 
 function addPoint(lat, lng, message) {
 
   // random icon
-  let iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/'
-  let markerColours = [
-    'red.png',
-    'orange.png',
-    'yellow.png',
-    'green.png',
-    'blue.png',
-    'purple.png',
-    'pink.png'
-  ]
-
   let icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
 
   let marker = new google.maps.Marker({
