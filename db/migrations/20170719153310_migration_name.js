@@ -37,6 +37,5 @@ exports.down = function(knex, Promise) {
     .dropTable('users_maps')
     .dropTable('points')
     .dropTable('maps')
-    .dropTable('users')
 };
 
