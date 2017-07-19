@@ -1,3 +1,9 @@
+# Wikimap
+
+* Jonathan Lam
+* Arnold Chan
+* Tak Ng
+
 # Node Skeleton
 
 ## Project Setup
