@@ -12,21 +12,13 @@
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <h1>Wikimap - Wiki your Map</h1>
 
-    <div id="googleMap" style="width:100%; height:400px;"></div>
-
-      <script>
-        function myMap() {
-          var mapProp= {
-            center:new google.maps.LatLng(43.6446447,-79.3949987),
-            zoom: 15
-          }
-
-          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp)
-        }
-      </script>
-
+    <div id="googleMap" style="width:100%; height:400px;">
+      <script src="/scripts/displayMap.js">Map</script>
       <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPIKey %>&callback=myMap"></script>
+    </div>
+
+    <h2>Users</h2>
   </body>
 </html>
