@@ -7,7 +7,6 @@ exports.findById = function(id, cb) {
   process.nextTick(function() {
     knex('users').then((database) =>{
       for (var i = 0; i < database.length; i++) {
-        console.log(database[i]);
       //Returns correct ID user as object
         if (database[i].id === id) {
           return cb(null, database[i]);

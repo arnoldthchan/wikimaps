@@ -75,7 +75,6 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser((user, cb) => {
-  console.log('SERIALIZE:', user);
   return cb(null, user.id);
 });
 
@@ -95,25 +94,30 @@ app.use(passport.session());
 app.get("/", (req, res) => {
   let templateVars =
   { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
-    user: req.user};
-  console.log(req.sessionID);
-
+    user: req.user
+    // ,user: req.user.name
+  };
+  // console.log('USER ID SESSION:', req._passport.session);
   return res.render("index", templateVars);
 });
 
 app.post("/login",
-  passport.authenticate("local", { successRedirect: '/', failureRedirect: '/fail' }));
-
- //  ,(req, res) => {
- //    // let templateVars = {user: req.user};
- //    console.log("Legit info:", req.user);
- //    res.send('/asd');
- // });
+  passport.authenticate("local", { successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true
+  }));
 
 app.post('/logout',
   function(req, res){
     req.logout();
     res.redirect('/');
+  });
+
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn('/'),
+  function(req, res){
+    // console.log(req.user);
+    res.render('profile', { user: req.user });
   });
 
 app.listen(PORT, () => {
