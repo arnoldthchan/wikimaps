@@ -64,7 +64,6 @@ passport.use(new Strategy(
       if (user.password != password) {
         return cb(null, false, {message: "Incorrect Password."});}
       //Passes authentication
-      console.log('yeee');
       return cb(null, user);
    });
  }));
@@ -111,12 +110,13 @@ app.post("/login",
 app.post('/register',
   (req, res) => {
     knex("users")
+    .where('name', req.body.username)
     .insert({
       name: req.body.username,
       email: req.body.email,
       password: req.body.password
     })
-    .asCallback((err, result) => {
+    .then((err, result) => {
       if (err){
         return console.error("error running query", err);
       }
@@ -125,7 +125,6 @@ app.post('/register',
         console.log("Exiting Knex");
       });
     });
-    res.redirect('/');
   });
 
 app.post('/logout',
