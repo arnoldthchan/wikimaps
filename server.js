@@ -29,6 +29,7 @@ app.use(morgan("dev"));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -63,6 +64,7 @@ passport.use(new Strategy(
       if (user.password != password) {
         return cb(null, false, {message: "Incorrect Password."});}
       //Passes authentication
+      console.log('yeee');
       return cb(null, user);
    });
  }));
@@ -95,14 +97,13 @@ app.get("/", (req, res) => {
   let templateVars =
   { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
     user: req.user
-    // ,user: req.user.name
   };
-  // console.log('USER ID SESSION:', req._passport.session);
+  console.log('USER ID SESSION:', req._passport.session);
   return res.render("index", templateVars);
 });
 
 app.post("/login",
-  passport.authenticate("local", { successReturnToOrRedirect: '/',
+  passport.authenticate("local", { successRedirect: '/',
     failureRedirect: '/'
     // , failureFlash: true
   }));
