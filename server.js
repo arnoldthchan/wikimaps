@@ -98,7 +98,7 @@ app.get("/", (req, res) => {
   { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
     user: req.user
   };
-  console.log('USER ID SESSION:', req._passport.session);
+  // console.log('USER ID SESSION:', req._passport.session);
   return res.render("index", templateVars);
 });
 

@@ -36,7 +36,7 @@
         </div>
         </form>
 
-          <form id="register" action="/register" method="post">
+<!--         <form id="register" action="/register" method="post">
             <div>
               <label>Username:</label>
               <input type="text" name="username"/><br/>
@@ -52,8 +52,7 @@
             <div>
               <input type="submit" value="Register"/>
             </div>
-          </form>
-
+        </form> -->
       </div>
 
     <% } else { %>
@@ -62,6 +61,7 @@
        <div><input type="submit" value="Logout"></div>
       </form>
     <% } %>
+
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -83,8 +83,8 @@
           });
 
           // Add the mask to body
-          // $('body').append('<div id="mask"></div>');
-          // $('#mask').fadeIn(300);
+          $('body').append('<div id="mask"></div>');
+          $('#mask').fadeIn(300);
 
           return false;
       });
