@@ -103,8 +103,8 @@ app.get("/", (req, res) => {
 
 app.post("/login",
   passport.authenticate("local", { successRedirect: '/',
-    failureRedirect: '/',
-    failureFlash: true
+    failureRedirect: '/'
+    // , failureFlash: true
   }));
 
 app.post('/logout',
@@ -116,7 +116,7 @@ app.post('/logout',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('/'),
   function(req, res){
-    // console.log(req.user);
+    console.log(req.user);
     res.render('profile', { user: req.user });
   });
 
