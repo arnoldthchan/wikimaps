@@ -12,7 +12,7 @@ span#list-box{
   width: 20%;
   float: left;
 }
-#googleMap{
+div#googleMap{
   position: relative;
   width: 80%;
   height: 90vh;

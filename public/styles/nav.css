@@ -27,3 +27,18 @@ div.logged-in{
   padding: 2% 2% 0 0;
   float:right;
 }
+
+span#list-box{
+  padding: 0 2%;
+  position: relative;
+  height: 100%;
+  width: 20%;
+  float: left;
+}
+div#googleMap{
+  position: relative;
+  width: 80%;
+  height: 90vh;
+  margin: auto;
+  float: right;
+}
