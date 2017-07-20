@@ -94,8 +94,10 @@ app.use(passport.session());
 // Home page
 app.get("/", (req, res) => {
   let templateVars =
-  { googleMapsAPIKey: GOOGLEMAPS_APIKEY};
+  { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
+    user: req.user};
   console.log(req.sessionID);
+
   return res.render("index", templateVars);
 });
 
@@ -108,7 +110,7 @@ app.post("/login",
  //    res.send('/asd');
  // });
 
-app.get('/logout',
+app.post('/logout',
   function(req, res){
     req.logout();
     res.redirect('/');

@@ -5,12 +5,15 @@ const knex        = require('knex')(knexConfig[ENV]);
 
 exports.findById = function(id, cb) {
   process.nextTick(function() {
-    knex('users').first('id', id).then((database) =>{
+    knex('users').then((database) =>{
+      for (var i = 0; i < database.length; i++) {
       //Returns correct ID user as object
-      if (database.id === id) {
-        return cb(null, database.id);
-      } else {
-        return cb(new Error('User ' + id + ' does not exist'));
+        if (database[i].id === id) {
+          console.log('FOUND', database);
+          return cb(null, database[i]);
+        } else {
+          return cb(new Error('User ' + id + ' does not exist'));
+        }
       }
       knex.destroy({});
     })

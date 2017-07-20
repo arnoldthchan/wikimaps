@@ -14,8 +14,9 @@
 
   <body>
     <h1>Wikimap - Wiki your Map</h1>
-    <!-- Login Form -->
-    <form id="login" action="/login" method="post">
+    <% if (!user) { %>
+      <p>Welcome! You are not logged in.</p>
+      <form id="login" action="/login" method="post">
       <div>
         <label>Username:</label>
         <input type="text" name="username"/><br/>
@@ -28,6 +29,13 @@
         <input type="submit" value="Submit"/>
       </div>
     </form>
+    <% } else { %>
+      <p>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</p>
+      <form id="logout" action="/logout" method="post">
+      <div><input type="submit" value="Logout"></div>
+      </form>
+    <% } %>
+    <!-- Login Form -->
 
     <div id="googleMap" style="width:100%; height:600px;">
       <script src="/scripts/displayMap.js">Map</script>
