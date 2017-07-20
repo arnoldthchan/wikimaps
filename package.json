@@ -13,9 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.15.4",
     "knex": "^0.11.10",
     "knex-logger": "^0.1.0",
     "mon": "0.0.8",
@@ -23,6 +26,8 @@
     "node": "0.0.0",
     "node-sass-middleware": "^0.9.8",
     "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^6.0.2"
   },
   "devDependencies": {

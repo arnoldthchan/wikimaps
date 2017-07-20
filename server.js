@@ -1,6 +1,6 @@
 "use strict";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const PORT        = process.env.PORT || 8080;
 const ENV         = process.env.ENV || "development";
@@ -12,27 +12,32 @@ const app         = express();
 
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
+const morgan      = require("morgan");
+const knexLogger  = require("knex-logger");
+const passport    = require("passport");
+const Strategy    = require("passport-local").Strategy;
+const db          = require("./db");
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
-// 'dev' = Concise output colored by response status for development use.
+// "dev" = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
+
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
   debug: true,
-  outputStyle: 'expanded'
+  outputStyle: "expanded"
 }));
 app.use(express.static("public"));
 
@@ -133,12 +138,101 @@ app.post("/map", (req, res) => {
       });
 });
 
-// Home page
-app.get("/", (req, res) => {
-  let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY };
-  res.render("index", templateVars);
+app.use(require("cookie-parser")());
+app.use(require("body-parser").urlencoded({ extended: true}));
+app.use(require("express-session")({ secret: "moist", resave: false, saveUninitialized: false}));
+
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(
+  (username, password, cb) => {
+    db.findByUsername(username, function(err, user) {
+      if (err) {
+        return cb(err);}
+      if (!user) {
+        return cb(null, false, {message: "User does not exist."});}
+      if (user.password != password) {
+        return cb(null, false, {message: "Incorrect Password."});}
+      //Passes authentication
+      return cb(null, user);
+   });
+ }));
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser((user, cb) => {
+  return cb(null, user.id);
 });
 
+passport.deserializeUser((id, cb) => {
+  db.findById(id, (err, user) => {
+    if (err) { return cb(err);}
+    return cb(null, user);
+ });
+});
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Home page
+app.get("/", (req, res) => {
+  let templateVars =
+  { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
+    user: req.user
+  };
+  // console.log('USER ID SESSION:', req._passport.session);
+  return res.render("index", templateVars);
+});
+
+app.post("/login",
+  passport.authenticate("local", { successRedirect: '/',
+    failureRedirect: '/'
+    // , failureFlash: true
+  }));
+
+app.post('/register',
+  (req, res) => {
+    knex("users")
+    .where('name', req.body.username)
+    .insert({
+      name: req.body.username,
+      email: req.body.email,
+      password: req.body.password
+    })
+    .then((err, result) => {
+      if (err){
+        return console.error("error running query", err);
+      }
+      console.log(`Added ${req.body.username}`);
+      knex.destroy(()=>{
+        console.log("Exiting Knex");
+      });
+    });
+  });
+
+app.post('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn('/'),
+  (req, res) => {
+    console.log(req.user);
+    res.render('profile', { user: req.user });
+  });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
