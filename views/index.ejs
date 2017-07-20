@@ -35,31 +35,33 @@
           <input type="submit" value="Login"/>
         </div>
         </form>
-      </div>
+
           <form id="register" action="/register" method="post">
-        <div>
-          <label>Username:</label>
-          <input type="text" name="username"/><br/>
-        </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" name="email"/>
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" name="password"/>
-        </div>
-        <div>
-          <input type="submit" value="Register"/>
-        </div>
-    </form>
+            <div>
+              <label>Username:</label>
+              <input type="text" name="username"/><br/>
+            </div>
+            <div>
+              <label>Email:</label>
+              <input type="email" name="email"/>
+            </div>
+            <div>
+              <label>Password:</label>
+              <input type="password" name="password"/>
+            </div>
+            <div>
+              <input type="submit" value="Register"/>
+            </div>
+          </form>
+
+      </div>
+
     <% } else { %>
       <p>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</p>
       <form id="logout" action="/logout" method="post">
        <div><input type="submit" value="Logout"></div>
       </form>
     <% } %>
-
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -81,8 +83,8 @@
           });
 
           // Add the mask to body
-          $('body').append('<div id="mask"></div>');
-          $('#mask').fadeIn(300);
+          // $('body').append('<div id="mask"></div>');
+          // $('#mask').fadeIn(300);
 
           return false;
       });

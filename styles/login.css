@@ -1,5 +1,5 @@
 /* Mask for background, by default is not display */
-#mask {
+/*#mask {
     display: none;
     background: #000;
     position: fixed;
@@ -9,7 +9,7 @@
     width: 100%;
     height: 100%;
     opacity: 0.8;
-}
+}*/
 
 /* You can customize to your needs  */
 .login-popup {
