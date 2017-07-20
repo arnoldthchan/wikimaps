@@ -1,7 +1,9 @@
 <p>
-ID: <%= user.id %><br/>
-Name: <%= user.name %><br/>
-Email: <%= user.email %><br/>
-Password: <%= user.password %> <br/>
+  ID: <%= user.id %><br/>
+  Name: <%= user.name %><br/>
+  Email: <%= user.email %><br/>
+  Password: <%= user.password %> <br/>
 </p>
-<a href="/logout">Log out</a>
+<form id="logout" action="/logout" method="post">
+  <div><input type="submit" value="Logout"></div>
+</form>

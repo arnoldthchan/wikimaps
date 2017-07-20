@@ -102,10 +102,30 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login",
-  passport.authenticate("local", { successRedirect: '/',
+  passport.authenticate("local", { successReturnToOrRedirect: '/',
     failureRedirect: '/'
     // , failureFlash: true
   }));
+
+app.post('/register',
+  (req, res) => {
+    knex("users")
+    .insert({
+      name: req.body.username,
+      email: req.body.email,
+      password: req.body.password
+    })
+    .asCallback((err, result) => {
+      if (err){
+        return console.error("error running query", err);
+      }
+      console.log(`Added ${req.body.username}`);
+      knex.destroy(()=>{
+        console.log("Exiting Knex");
+      });
+    });
+    res.redirect('/');
+  });
 
 app.post('/logout',
   function(req, res){
@@ -115,7 +135,7 @@ app.post('/logout',
 
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('/'),
-  function(req, res){
+  (req, res) => {
     console.log(req.user);
     res.render('profile', { user: req.user });
   });
