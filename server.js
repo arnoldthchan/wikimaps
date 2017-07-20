@@ -10,7 +10,6 @@ const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
 
-
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require("morgan");
@@ -48,10 +47,6 @@ app.use(require("cookie-parser")());
 app.use(require("body-parser").urlencoded({ extended: true}));
 app.use(require("express-session")({ secret: "moist", resave: false, saveUninitialized: false}));
 
-//Passport User authentication
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
@@ -64,7 +59,7 @@ passport.use(new Strategy(
       if (err) {
         return cb(err);}
       if (!user) {
-        return cb(null, false);}
+        return cb(null, false, {message: "User does not exist."});}
       if (user.password != password) {
         return cb(null, false, {message: "Incorrect Password."});}
       //Passes authentication
@@ -80,11 +75,12 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser((user, cb) => {
+  console.log('SERIALIZE:', user);
   return cb(null, user.id);
 });
 
 passport.deserializeUser((id, cb) => {
-  db.users.findById(id,  (err, user) => {
+  db.findById(id, (err, user) => {
     if (err) { return cb(err);}
     return cb(null, user);
  });
@@ -98,20 +94,25 @@ app.use(passport.session());
 // Home page
 app.get("/", (req, res) => {
   let templateVars =
-  { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
-    user: req.user};
-  console.log(req.passport);
+  { googleMapsAPIKey: GOOGLEMAPS_APIKEY};
+  console.log(req.sessionID);
   return res.render("index", templateVars);
 });
 
 app.post("/login",
-  passport.authenticate("local",{ session: false }),
-  (req, res) => {
-    let templateVars = {user: req.user};
-    console.log("Legit info:", req.user);
-    //Sends header of user with req.user
-    // return res.render("index", templateVars);
- });
+  passport.authenticate("local", { successRedirect: '/', failureRedirect: '/fail' }));
+
+ //  ,(req, res) => {
+ //    // let templateVars = {user: req.user};
+ //    console.log("Legit info:", req.user);
+ //    res.send('/asd');
+ // });
+
+app.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

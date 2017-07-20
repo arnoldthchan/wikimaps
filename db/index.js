@@ -5,13 +5,12 @@ const knex        = require('knex')(knexConfig[ENV]);
 
 exports.findById = function(id, cb) {
   process.nextTick(function() {
-    var idx = id - 1;
-    knex('users').where('id', idx).then((asd) =>{
-      //ADD A FOR LOOP to iterate search
-      if (knex('users').where('id', idx)) {
-        cb(null, placeholder[idx]);
+    knex('users').first('id', id).then((database) =>{
+      //Returns correct ID user as object
+      if (database.id === id) {
+        return cb(null, database.id);
       } else {
-        cb(new Error('User ' + id + ' does not exist'));
+        return cb(new Error('User ' + id + ' does not exist'));
       }
       knex.destroy({});
     })
@@ -27,10 +26,9 @@ exports.findByUsername = function(username, cb) {
           return cb(null, database[i]);
         }
       }
-    });
-    // console.log('NOT FOUND');
     return cb(null, null);
     knex.destroy({});
+    });
   });
 }
 
