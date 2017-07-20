@@ -47,9 +47,8 @@ app.use("/api/users", usersRoutes(knex));
 app.get("/maps", (req, res) => {
     console.log("HERE 1");
     knex('maps')
-      .select('*')
-      .from('maps')
       .then((results) => {
+        console.log(results)
         res.json(results)
       })
       .catch(function(error) {

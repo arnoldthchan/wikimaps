@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -14,54 +15,57 @@
   </head>
 
   <body>
-    <h1>Wikimap - Wiki your Map</h1>
-    <% if (!user) { %>
+    <header id='nav-bar'>
+      <h1>Wikimap - Wiki your Map</h1>
+      <% if (!user) { %>
 
-      <a href="#login-box" class="login-window">Login / Sign In</a>
+        <a href="#login-box" class="login-window">Login / Sign In</a>
 
-      <div id="login-box" class="login-popup">
-      <a href="#" class="close">CLOSE</a>
+        <div id="login-box" class="login-popup">
+        <a href="#" class="close">CLOSE</a>
 
-        <form id="login" action="/login" method="post">
-        <div>
-          <label>Username:</label>
-          <input type="text" name="username"/><br/>
+          <form id="login" action="/login" method="post">
+          <div>
+            <label>Username:</label>
+            <input type="text" name="username"/><br/>
+          </div>
+          <div>
+            <label>Password:</label>
+            <input type="password" name="password"/>
+          </div>
+          <div>
+            <input type="submit" value="Login"/>
+          </div>
+          </form>
+
+          <form id="register" action="/register" method="post">
+              <div>
+                <label>Username:</label>
+                <input type="text" name="username"/><br/>
+              </div>
+              <div>
+                <label>Email:</label>
+                <input type="email" name="email"/>
+              </div>
+              <div>
+                <label>Password:</label>
+                <input type="password" name="password"/>
+              </div>
+              <div>
+                <input type="submit" value="Register"/>
+              </div>
+          </form>
         </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" name="password"/>
+
+      <% } else { %>
+        <div class="logged-in">
+          <span>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</span>
+          <form id="logout" action="/logout" method="post">
+           <div><input type="submit" value="Logout"></div>
+          </form>
         </div>
-        <div>
-          <input type="submit" value="Login"/>
-        </div>
-        </form>
-
-        <form id="register" action="/register" method="post">
-            <div>
-              <label>Username:</label>
-              <input type="text" name="username"/><br/>
-            </div>
-            <div>
-              <label>Email:</label>
-              <input type="email" name="email"/>
-            </div>
-            <div>
-              <label>Password:</label>
-              <input type="password" name="password"/>
-            </div>
-            <div>
-              <input type="submit" value="Register"/>
-            </div>
-        </form>
-      </div>
-
-    <% } else { %>
-      <p>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</p>
-      <form id="logout" action="/logout" method="post">
-       <div><input type="submit" value="Logout"></div>
-      </form>
-    <% } %>
-
+      <% } %>
+    </header>
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -98,11 +102,12 @@
       });
       });
     </script>
-
-    <div id="googleMap" style="width:100%; height:600px;">
+    <span id="list-box">
+      <h2>Lists</h2>
+    </span>
+    <div id="googleMap">
       <script src="/scripts/map.js">Map</script>
       <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPIKey %>&callback=initMap"></script>
     </div>
-    <h2>Users</h2>
   </body>
 </html>
