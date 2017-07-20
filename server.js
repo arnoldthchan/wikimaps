@@ -59,8 +59,6 @@ app.get("/maps", (req, res) => {
 
 app.get("/maps/:user_id", (req, res) => {
     knex('users_maps')
-      .select('*')
-      .from('users_maps')
       .where({user_id: req.params.user_id})
       .then((results) => {
         res.json(results)
@@ -72,8 +70,6 @@ app.get("/maps/:user_id", (req, res) => {
 
 app.get("/maps/:map_id/points", (req, res) => {
     knex('points')
-      .select('*')
-      .from('points')
       .where({map_id: req.params.map_id})
       .then((results) => {
         res.json(results)
