@@ -5,3 +5,18 @@ body {
     color: #244751;
   }
 }
+
+span#list-box{
+  padding: 0 2%;
+  position: relative;
+  height: 100%;
+  width: 20%;
+  float: left;
+}
+div#googleMap{
+  position: relative;
+  width: 80%;
+  height: 90vh;
+  margin: auto;
+  float: right;
+}
