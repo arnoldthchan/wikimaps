@@ -28,12 +28,21 @@ function initMap() {
     success: function(obj){
       //console.dir(obj[0]);
       curMap = obj[0];
-      console.log(curMap);
 
-        var mapProp = {
-        center: new google.maps.LatLng(curMap["latitude"],curMap["longitude"]),
-        zoom: 15
-      };
+      var mapProp;
+
+      if (!curMap["latitude"] || !curMap["longitude"]) {
+        mapProp = {
+          center: new google.maps.LatLng(39.019444,125.738056),
+          zoom: 12
+        };
+      } else {
+        mapProp = {
+          center: new google.maps.LatLng(curMap["latitude"],curMap["longitude"]),
+          zoom: 15
+        };
+      }
+
 
       // init map
       map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
