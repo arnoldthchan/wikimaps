@@ -71,14 +71,18 @@ function initMap() {
       //add listener for adding markers
       google.maps.event.addListener(map, 'click', function(event) {
         console.log(event.latLng.lat(), event.latLng.lng());
-        addPoint(event.latLng.lat(), event.latLng.lng(), counter, counter);
+        addPoint("Click", "Clack", "Cleck", event.latLng.lat(), event.latLng.lng());
         counter++;
       });
+
+      if (curMap) {
+        getPointsFromDB(curMap["id"]);
+      }
     }
   });
 }
 
-function addPoint(lat, lng, message, counter) {
+function addPoint(title, desc, img, lat, lng) {
 
   // random icon
   var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
@@ -89,16 +93,18 @@ function addPoint(lat, lng, message, counter) {
     draggable: true,
     icon: icon,
     animation: google.maps.Animation.DROP,
-    title: String(message),
+    title: title,
     info_id: counter
   });
 
   // Add info window
   var infoDesc = `<form>
                     <label for="titleBox">Title</label>
-                    <textarea id="titleBox">Untitled</textarea><br/>
+                    <textarea id="titleBox">${title}</textarea><br/>
                     <label for="descriptionBox">Description</label>
-                    <textarea id="descriptionBox">Description</textarea>
+                    <textarea id="descriptionBox">${desc}</textarea><br/>
+                    <label for="imgBox">Image</label>
+                    <textarea id="imgBox">${img}</textarea>
                   </form>`;
 
   infoWindow[counter] = new google.maps.InfoWindow({
@@ -115,9 +121,28 @@ function addPoint(lat, lng, message, counter) {
   });
 
   marker[counter].addListener('dragend', function() {
-    this.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){
-      marker[counter].setAnimation(null);
-    }, 400);
+    var curMarker = this;
+
+    curMarker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ curMarker.setAnimation(null); }, 400);
+  });
+}
+
+function getPointsFromDB(map_id) {
+  $.ajax( {
+    url: `maps/${map_id}/points`,
+    method: "GET",
+    success: function(obj) {
+      console.log(obj);
+      for (var i = 0; i < obj.length; i++) {
+        console.log(obj[i]);
+        addPoint(obj[i]["title"],
+                 obj[i]["description"],
+                 obj[i]["image"],
+                 obj[i]["latitude"],
+                 obj[i]["longitude"]);
+        counter++;
+      }
+    }
   });
 }
