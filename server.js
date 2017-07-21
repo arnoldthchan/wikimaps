@@ -227,21 +227,9 @@ app.post('/register',
       res.render("index", templateVars);
     });
 
-
-
-
-    // .whereNotExists(() => {
-    //   console.log('whereNotExists');
-    //   console.log(req.body.username);
-    //   this.select('name').from('users').whereRaw(`name=${req.body.username}`)
-    //   res.redirect('/');
-    // })
-
-    // .returning('id')
-
   });
 
-app.post('/logout',
+app.get('/logout',
   function(req, res){
     req.logout();
     res.redirect('/');

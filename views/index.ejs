@@ -60,7 +60,7 @@
       <% } else { %>
         <div class="logged-in">
           <span>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</span>
-          <form id="logout" action="/logout" method="post">
+          <form id="logout" action="/logout" method="get">
            <div><input type="submit" value="Logout"></div>
           </form>
         </div>
