@@ -41,6 +41,8 @@ app.use("/styles", sass({
   outputStyle: "expanded"
 }));
 app.use(express.static("public"));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
