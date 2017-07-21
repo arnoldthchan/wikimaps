@@ -1,5 +1,6 @@
 
 $(document).ready(() => {
+  var map;
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -9,7 +10,6 @@ $(document).ready(() => {
       let item = $('<li>').append(link);
       $('ul.list').append(item);
     }
-    return
   });
 });
 
