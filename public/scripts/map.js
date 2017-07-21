@@ -20,7 +20,18 @@ function initMap() {
 
   var mapProp = {
     center: new google.maps.LatLng(43.6446447,-79.3949987),
-    zoom: 15
+    zoom: 15,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+    }, // here´s the array of controls
+    disableDefaultUI: true, // a way to quickly hide all controls
+    //mapTypeControl: true,
+    scaleControl: true,
+    zoomControl: true,
+    zoomControlOptions: {
+      style: google.maps.ZoomControlStyle.LARGE
+    },
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   // init map
