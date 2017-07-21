@@ -29,20 +29,29 @@ function initMap() {
       //console.dir(obj[0]);
       curMap = obj[0];
 
-      var mapProp;
+      var mapProp = {
+          center: new google.maps.LatLng(0,0),
+          zoom: 15,
+          mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+          },
+          disableDefaultUI: true,
+          //mapTypeControl: true,
+          scaleControl: true,
+          zoomControl: true,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.LARGE
+          },
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
       if (!curMap["latitude"] || !curMap["longitude"]) {
-        mapProp = {
-          center: new google.maps.LatLng(39.019444,125.738056),
-          zoom: 12
-        };
+        mapProp.center = new google.maps.LatLng(39.019444,125.738056);
+        mapProp.zoom = 12;
       } else {
-        mapProp = {
-          center: new google.maps.LatLng(curMap["latitude"],curMap["longitude"]),
-          zoom: 15
-        };
+        mapProp.center = new google.maps.LatLng(curMap["latitude"],curMap["longitude"]);
+        mapPropzoom = 15;
       }
-
 
       // init map
       map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
