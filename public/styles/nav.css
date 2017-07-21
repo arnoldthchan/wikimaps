@@ -17,8 +17,3 @@ header h1 {
 header a.login-window {
   float: right;
 }
-
-div.logged-in {
-  padding: 2% 2% 0 0;
-  float: right;
-}

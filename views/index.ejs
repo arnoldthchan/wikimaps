@@ -8,29 +8,22 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="styles/bootstrap.min.css" rel="stylesheet">
+<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-
+    <script src="js/bootstrap.min.js"></script>
   </head>
 
   <body>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
 
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Wikimaps</a>
-    </div>
-
+    <a class="navbar-brand">Wikimaps</a>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -60,13 +53,13 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Login</button>
-        <a href="#login-box" class="login-window btn btn-primary">Register</a>
+        <a href="#login-box" class="login-window btn btn-primary" value="Register">Register</a>
       </form>
       <% } else { %>
-        <div class="logged-in">
+        <div class="navbar-right">
           <span>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</span>
           <form id="logout" action="/logout" method="GET">
-           <div><input type="submit" value="Logout"></div>
+            <button type="submit" class="btn btn-primary">Logout</button>
           </form>
         </div>
       <% } %>
@@ -76,23 +69,22 @@
 </nav>
 
         <div id="login-box" class="login-popup">
-        <a href="#" class="close">CLOSE</a>
-
-          <form id="register" action="/register" method="post">
-              <div>
-                <label>Username:</label>
-                <input type="text" name="username"/><br/>
-              </div>
-              <div>
-                <label>Email:</label>
-                <input type="email" name="email"/>
-              </div>
-              <div>
-                <label>Password:</label>
-                <input type="password" name="password"/>
-              </div>
-              <button id="register" type="submit" class="btn btn-primary">Register</button>
-          </form>
+          <a href="#" class="close">CLOSE</a>
+            <form id="register" action="/register" method="post">
+                <div>
+                  <label>Username:</label>
+                  <input type="text" name="username"/><br/>
+                </div>
+                <div>
+                  <label>Email:</label>
+                  <input type="email" name="email"/>
+                </div>
+                <div>
+                  <label>Password:</label>
+                  <input type="password" name="password"/>
+                </div>
+                <button id="register" type="submit" class="btn btn-primary">Register</button>
+            </form>
         </div>
 
     <script type="text/javascript">
@@ -130,8 +122,8 @@
       });
     </script>
     <span id="list-box">
-<!--       <h2 id="lists"><p>Lists</p></h2>
- -->      <h2 id="favourites">Favourites</h2>
+      <h2 id="lists"><p>Lists</p></h2>
+      <h2 id="favourites">Favourites</h2>
     </span>
     <div id="googleMap">
       <script src="/scripts/map.js">Map</script>
