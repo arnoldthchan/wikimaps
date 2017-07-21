@@ -32,6 +32,14 @@ exports.seed = function(knex, Promise) {
       latitude: 43.6632,
       longitude: -79.3932,
       map_id: 1,
+      user_id: 1}),
+
+    knex('points').insert({title: 'The \'shawa',
+      description: 'Welcome to the \'shawa.',
+      image: 'shawa.png',
+      latitude: 43.8971,
+      longitude: -78.8658,
+      map_id: 2,
       user_id: 1})
   ]);
 };

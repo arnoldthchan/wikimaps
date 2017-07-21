@@ -27,7 +27,7 @@ function initMap() {
     method: "GET",
     success: function(obj){
       //console.dir(obj[0]);
-      curMap = obj[0];
+      curMap = obj[4];
 
       var mapProp = {
           center: new google.maps.LatLng(0,0),
