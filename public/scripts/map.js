@@ -1,3 +1,4 @@
+var map;
 var iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/';
 var markerColours = [
   'red.png',
@@ -23,6 +24,8 @@ function initMap() {
     center: new google.maps.LatLng(43.6446447,-79.3949987),
     zoom: 15
   };
+
+
 
   // init map
   map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
