@@ -1,4 +1,4 @@
-$primaryColor: #eeffcc;
+$bg: #f8f8f8;
 
 /* Mask for background, by default is not display */
 #mask {
@@ -14,7 +14,7 @@ $primaryColor: #eeffcc;
 }
 
 .login-popup {
-    background: white;
+    background: $bg;
     display: none;
     padding: 5%;
     position: fixed;
