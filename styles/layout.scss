@@ -17,10 +17,10 @@ span#list-box{
 }
 
 div#googleMap{
-  position: relative;
   width: 100%;
   height: 90vh;
 }
+
 /* Hides footer for google maps */
 .gmnoprint a, .gmnoprint span, .gm-style-cc {
     display:none;
