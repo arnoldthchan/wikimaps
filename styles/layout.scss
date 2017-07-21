@@ -13,10 +13,15 @@ span#list-box{
   width: 20%;
   float: left;
 }
+
 div#googleMap{
   position: relative;
   width: 80%;
   height: 90vh;
   margin: auto;
   float: right;
+}
+a.list{
+  font-size: 12pt;
+  font-weight: normal;
 }

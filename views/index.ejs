@@ -15,8 +15,8 @@
   </head>
 
   <body>
-    <header id='nav-bar'>
-      <h1>Wikimap - Wiki your Map</h1>
+    <header id='nav-bar' class="container">
+      <h1 class="title">asd</h1>
       <% if (!user) { %>
 
         <a href="#login-box" class="login-window">Login / Sign In</a>
@@ -103,14 +103,13 @@
       });
     </script>
     <span id="list-box">
-      <h2>Lists</h2>
+<!--       <h2 id="lists"><p>Lists</p></h2>
+ -->      <h2 id="favourites">Favourites</h2>
     </span>
     <div id="googleMap">
       <script src="/scripts/map.js">Map</script>
       <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPIKey %>&callback=initMap"></script>
     </div>
-    <span id="fav">
-      <h2>fav</h2>
-    </span>
+
   </body>
 </html>

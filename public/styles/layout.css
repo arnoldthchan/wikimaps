@@ -21,3 +21,8 @@ div#googleMap {
   margin: auto;
   float: right;
 }
+
+a.list {
+  font-size: 12pt;
+  font-weight: normal;
+}

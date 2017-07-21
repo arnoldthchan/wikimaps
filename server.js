@@ -193,27 +193,48 @@ app.get("/", (req, res) => {
 app.post("/login",
   passport.authenticate("local", { successRedirect: '/',
     failureRedirect: '/'
-    // , failureFlash: true
   }));
 
 app.post('/register',
   (req, res) => {
     knex("users")
+    .count('name')
     .where('name', req.body.username)
-    .insert({
-      name: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    })
-    .then((err, result) => {
-      if (err){
-        return console.error("error running query", err);
+    .then((results) => {
+      console.log(results[0].count)
+      if(results[0].count == 0){
+        console.log('SHOULD MAKE');
+        knex('users')
+        .insert({
+          name: req.body.username,
+          email: req.body.email,
+          password: req.body.password
+        })
+        .returning('id')
+        .then((results) => {
+          let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
+          user: req.user};
+          res.render("index", templateVars);
+        });
       }
-      console.log(`Added ${req.body.username}`);
-      knex.destroy(()=>{
-        console.log("Exiting Knex");
-      });
+      let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
+        user: req.user};
+      console.log('THEN!');
+      res.render("index", templateVars);
     });
+
+
+
+
+    // .whereNotExists(() => {
+    //   console.log('whereNotExists');
+    //   console.log(req.body.username);
+    //   this.select('name').from('users').whereRaw(`name=${req.body.username}`)
+    //   res.redirect('/');
+    // })
+
+    // .returning('id')
+
   });
 
 app.post('/logout',

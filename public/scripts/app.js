@@ -15,9 +15,10 @@ $(() => {
     url: "/maps"
   }).done((maps) => {
     for(map of maps) {
-      console.log(map);
-      $(`<a href = "/maps/${map.id}">`).text(`${map.title}, By: ${map.creator_id}`).appendTo($("#list-box"));
-      $('<p>').appendTo($("span#list-box"));
+      $(`<br> <a href="/maps/${map.id}" class="list">`).text(`${map.title}`).prependTo($("span#list-box"));
     }
-  });;
+    $('<p>').appendTo($("h2#favourites"));
+    $('<a href="/maps/1" class="list">').text('HARD CODED FAVOURITE').appendTo($("h2#favourites"));
+  });
 });
+
