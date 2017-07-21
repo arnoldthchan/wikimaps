@@ -45,7 +45,7 @@ function initMap() {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-      if (!curMap["latitude"] || !curMap["longitude"]) {
+      if (!curMap) {
         mapProp.center = new google.maps.LatLng(39.019444,125.738056);
         mapProp.zoom = 12;
       } else {
