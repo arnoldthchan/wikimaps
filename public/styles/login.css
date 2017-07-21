@@ -12,7 +12,7 @@
 }
 
 .login-popup {
-  background: white;
+  background: #f8f8f8;
   display: none;
   padding: 5%;
   position: fixed;

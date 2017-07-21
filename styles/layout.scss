@@ -1,7 +1,8 @@
 $sidebarWidth: 20%;
 $grey: #777;
+$bg: #f8f8f8;
 body {
-  background-color: #EEE;
+  background-color: $bg;
 
   h1 {
     color: #244751;
