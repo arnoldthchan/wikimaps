@@ -11,69 +11,58 @@
     <link rel="stylesheet" href="styles/bootstrap.css" rel="stylesheet">
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<!--     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script> -->
 
     <script src="/scripts/map.js"></script>
-
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="/scripts/login-box.js"></script>
   </head>
 
   <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-
-    <a class="navbar-brand">Wikimaps</a>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-      <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lists <span class="caret"></span></a>
-          <ul class="dropdown-menu list" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <a class="navbar-brand">Wikimaps</a>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lists <span class="caret"></span></a>
+              <ul class="dropdown-menu list" role="menu">
+                <li><a href="#">Test</a></li>
+              </ul>
           </ul>
-        </li>
-      </ul>
 
-      <% if (!user) { %>
-      <form id="login" action="/login" method="post" class="navbar-form navbar-right" role="form">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="username" type="text" class="form-control" name="username" placeholder="Username">
-        </div>
+          <% if (!user) { %>
+          <form id="login" action="/login" method="post" class="navbar-form navbar-right" role="form">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="username" type="text" class="form-control" name="username" placeholder="Username">
+            </div>
 
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-        </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+            </div>
 
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a href="#login-box" class="login-window btn btn-primary" value="Register">Register</a>
-      </form>
-
-
-      <% } else { %>
-        <div class="navbar-right navbar-text inline">
-          <span class ="">Hello, <%= user.name%>
-          <a href="/profile">profile.</a>
-          <form id="logout" action="/logout" method="GET">
-            <button type="submit" class="btn btn-primary">Logout</button>
-            </span>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a href="#login-box" class="login-window btn btn-primary" value="Register">Register</a>
           </form>
-        </div>
-      <% } %>
 
-    </div>
-  </div>
-</nav>
+
+          <% } else { %>
+            <div class="navbar-right navbar-text navbar-nav">
+              <form class="form-inline" id="logout" action="/logout" method="GET">
+                <span class ="">Hello, <%= user.name%>
+                <a href="/profile">profile.</a>
+                </span>
+                <button type="submit" class="btn btn-primary">Logout</button>
+              </form>
+            </div>
+          <% } %>
+
+        </div>
+      </div>
+    </nav>
 
         <div id="login-box" class="login-popup">
           <a href="#" class="close">CLOSE</a>
@@ -93,8 +82,6 @@
                 <button id="register" type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
-
-    <script type="text/javascript" src="/scripts/login-box.js"></script>
     <span id="list-box">
       <h2 id="favourites">Favourites</h2>
     </span>
