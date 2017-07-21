@@ -31,7 +31,11 @@
     "pg": "^6.0.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "nodemon": "^1.11.0",
+=======
+    "nodemon": "^1.9.2",
+>>>>>>> bootstrap
     "sqlite3": "3.1.4"
   }
 }

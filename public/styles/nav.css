@@ -15,14 +15,5 @@ header h1 {
 }
 
 header a.login-window {
-  display: block;
-  float: right;
-  border: 1px solid black;
-  margin: 2% 2% 0 0;
-  padding: 1%;
-}
-
-div.logged-in {
-  padding: 2% 2% 0 0;
   float: right;
 }
