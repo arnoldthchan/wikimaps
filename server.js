@@ -154,6 +154,7 @@ passport.use(new Strategy(
       }
       bcrypt.compare(password, user.password)
       .then(function(res) {
+        //res = true if password matches hash
         if(res){
           return cb(null, user);
         } else{
