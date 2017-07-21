@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+
   </head>
 
   <body>
@@ -19,7 +22,7 @@
       <h1 class="title">asd</h1>
       <% if (!user) { %>
 
-        <a href="#login-box" class="login-window">Login / Sign In</a>
+        <a href="#login-box" class="login-window btn btn-success"">Login / Sign In</a>
 
         <div id="login-box" class="login-popup">
         <a href="#" class="close">CLOSE</a>
@@ -60,7 +63,7 @@
       <% } else { %>
         <div class="logged-in">
           <span>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</span>
-          <form id="logout" action="/logout" method="post">
+          <form id="logout" action="/logout" method="GET">
            <div><input type="submit" value="Logout"></div>
           </form>
         </div>

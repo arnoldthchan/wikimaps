@@ -17,6 +17,7 @@ const knexLogger  = require("knex-logger");
 const passport    = require("passport");
 const Strategy    = require("passport-local").Strategy;
 const db          = require("./db");
+const bcrypt      = require('bcrypt');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -40,6 +41,8 @@ app.use("/styles", sass({
   outputStyle: "expanded"
 }));
 app.use(express.static("public"));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
@@ -149,14 +152,19 @@ passport.use(new Strategy(
       if (err) {
         return cb(err);}
       if (!user) {
-        return cb(null, false, {message: "User does not exist."});}
-      if (user.password != password) {
-        return cb(null, false, {message: "Incorrect Password."});}
-      //Passes authentication
-      return cb(null, user);
-   });
- }));
-
+        return cb(null, false, {message: "User does not exist."});
+      }
+      bcrypt.compare(password, user.password)
+      .then(function(res) {
+        //res = true if password matches hash
+        if(res){
+          return cb(null, user);
+        } else{
+          return cb(null, false, {message: err});
+        }
+      });
+    });
+  }))
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
@@ -203,12 +211,11 @@ app.post('/register',
     .then((results) => {
       console.log(results[0].count)
       if(results[0].count == 0){
-        console.log('SHOULD MAKE');
         knex('users')
         .insert({
           name: req.body.username,
           email: req.body.email,
-          password: req.body.password
+          password: bcrypt.hashSync(req.body.password, 10)
         })
         .returning('id')
         .then((results) => {
@@ -219,25 +226,12 @@ app.post('/register',
       }
       let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
         user: req.user};
-      console.log('THEN!');
       res.render("index", templateVars);
     });
 
-
-
-
-    // .whereNotExists(() => {
-    //   console.log('whereNotExists');
-    //   console.log(req.body.username);
-    //   this.select('name').from('users').whereRaw(`name=${req.body.username}`)
-    //   res.redirect('/');
-    // })
-
-    // .returning('id')
-
   });
 
-app.post('/logout',
+app.get('/logout',
   function(req, res){
     req.logout();
     res.redirect('/');
