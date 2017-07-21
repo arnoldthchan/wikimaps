@@ -30,6 +30,7 @@ $(document).ready(function() {
     });
   });
 
+  //Toggles favourites sidebar visibility
   $("#favs").click(function(event) {
     event.preventDefault();
     $("#wrapper").toggleClass("toggled");
