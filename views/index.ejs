@@ -8,14 +8,12 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-    <link rel="stylesheet" href="styles/bootstrap.min.css" rel="stylesheet">
-<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-
-<!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="styles/bootstrap.css" rel="stylesheet">
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<!--     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     <script src="js/bootstrap.min.js"></script>
   </head>
 
@@ -28,16 +26,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
       <li><a href="#">Link</a></li>
-<!--         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lists <span class="caret"></span></a>
+          <ul class="dropdown-menu list" role="menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li><a href="#">Separated link</a></li>
             <li><a href="#">One more separated link</a></li>
           </ul>
-        </li> -->
+        </li>
       </ul>
 
       <% if (!user) { %>
@@ -55,11 +53,15 @@
         <button type="submit" class="btn btn-primary">Login</button>
         <a href="#login-box" class="login-window btn btn-primary" value="Register">Register</a>
       </form>
+
+
       <% } else { %>
-        <div class="navbar-right">
-          <span>Hello, <%= user.name %>. View your <a href="/profile">profile</a>.</span>
+        <div class="navbar-right navbar-text inline">
+          <span class ="">Hello, <%= user.name%>
+          <a href="/profile">profile.</a>
           <form id="logout" action="/logout" method="GET">
             <button type="submit" class="btn btn-primary">Logout</button>
+            </span>
           </form>
         </div>
       <% } %>
@@ -104,7 +106,6 @@
               'margin-top' : -popMargTop,
               'margin-left' : -popMargLeft
           });
-
           // Add the mask to body
           $('body').append('<div id="mask"></div>');
           $('#mask').fadeIn(300);
@@ -113,7 +114,7 @@
       });
 
       // When clicking on the button close or the mask layer the popup closed
-      $('a.close, #mask').live('click', function() {
+      $('a.close, #mask').on('click', function() {
         $('#mask , .login-popup').fadeOut(300 , function() {
           $('#mask').remove();
       });
@@ -122,7 +123,6 @@
       });
     </script>
     <span id="list-box">
-      <h2 id="lists"><p>Lists</p></h2>
       <h2 id="favourites">Favourites</h2>
     </span>
     <div id="googleMap">
