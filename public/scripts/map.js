@@ -1,4 +1,8 @@
 var map;
+var counter = 0;
+var marker = [];
+var infoWindow = [];
+
 var iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/';
 var markerColours = [
   'red.png',
@@ -14,39 +18,45 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var counter = 0;
-var marker = [];
-var infoWindow = [];
-
 function initMap() {
 
-  var mapProp = {
-    center: new google.maps.LatLng(43.6446447,-79.3949987),
-    zoom: 15
-  };
+  var curMap;
 
+  $.ajax({
+    url: "/maps",
+    method: "GET",
+    success: function(obj){
+      //console.dir(obj[0]);
+      curMap = obj[0];
+      console.log(curMap);
 
+        var mapProp = {
+        center: new google.maps.LatLng(curMap["latitude"],curMap["longitude"]),
+        zoom: 15
+      };
 
-  // init map
-  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      // init map
+      map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-  // Hide POI
-  // var styles = {
-  //   default: null,
-  //   hide: [
-  //   {
-  //     featureType: 'all',
-  //     stylers: [{visibility: 'off'}]
-  //   }]
-  // };
+      // Hide POI
+      // var styles = {
+      //   default: null,
+      //   hide: [
+      //   {
+      //     featureType: 'all',
+      //     stylers: [{visibility: 'off'}]
+      //   }]
+      // };
 
-  // map.setOptions({styles: styles['default']})
+      // map.setOptions({styles: styles['default']})
 
-  //add listener for adding markers
-  google.maps.event.addListener(map, 'click', function(event) {
-    console.log(event.latLng.lat(), event.latLng.lng());
-    addPoint(event.latLng.lat(), event.latLng.lng(), counter, counter);
-    counter++;
+      //add listener for adding markers
+      google.maps.event.addListener(map, 'click', function(event) {
+        console.log(event.latLng.lat(), event.latLng.lng());
+        addPoint(event.latLng.lat(), event.latLng.lng(), counter, counter);
+        counter++;
+      });
+    }
   });
 }
 
@@ -86,5 +96,10 @@ function addPoint(lat, lng, message, counter) {
     infoWindow[this.info_id].open(map, this);
   });
 
-
+  marker[counter].addListener('dragend', function() {
+    this.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){
+      marker[counter].setAnimation(null);
+    }, 400);
+  });
 }
