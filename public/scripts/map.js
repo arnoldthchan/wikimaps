@@ -14,6 +14,7 @@ function randomInt(min, max) {
 };
 
 var counter = 0;
+var marker = [];
 var infoWindow = [];
 
 function initMap() {
@@ -44,11 +45,6 @@ function initMap() {
     addPoint(event.latLng.lat(), event.latLng.lng(), counter, counter);
     counter++;
   });
-
-  // Add markers
-  // for (let i = 0; i < 360; i+=10) {
-  //   addPoint(43.6446447 + Math.cos(i*(Math.PI/180)) * 0.001,-79.3949987 + Math.sin(i*(Math.PI/180)) * 0.001, i);
-  // }
 }
 
 function addPoint(lat, lng, message, counter) {
@@ -56,9 +52,10 @@ function addPoint(lat, lng, message, counter) {
   // random icon
   var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
 
-  var marker = new google.maps.Marker({
+  marker[counter] = new google.maps.Marker({
     position: new google.maps.LatLng(lat, lng),
     map: map,
+    draggable: true,
     icon: icon,
     animation: google.maps.Animation.DROP,
     title: String(message),
@@ -66,17 +63,25 @@ function addPoint(lat, lng, message, counter) {
   });
 
   // Add info window
-  var infoDesc = "<h2>Info Window!</h2><p>This is an info window! It is made of info and window!";
+  var infoDesc = `<form>
+                    <label for="titleBox">Title</label>
+                    <textarea id="titleBox">Untitled</textarea><br/>
+                    <label for="descriptionBox">Description</label>
+                    <textarea id="descriptionBox">Description</textarea>
+                  </form>`;
+
   infoWindow[counter] = new google.maps.InfoWindow({
     content: infoDesc
   });
 
-  marker.addListener('click', function() {
+  marker[counter].addListener('click', function() {
     map.setCenter(this.getPosition());
     for (var i = 0; i < infoWindow.length; i++) {
       infoWindow[i].close();
-    }
+    };
 
-    infoWindow[this.info_id].open(map, marker);
+    infoWindow[this.info_id].open(map, this);
   });
+
+
 }
