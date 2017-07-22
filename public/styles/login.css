@@ -46,4 +46,7 @@
 
 #imgBox, .img-fluid {
   margin-bottom: 5px;
+  background: #f8f8f8;
+  display: none;
+  padding: 5%;
 }

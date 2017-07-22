@@ -146,6 +146,21 @@ app.post("/map", (req, res) => {
       });
 });
 
+app.get("/favourite", (req, res) => {
+    //console.log(req.body);
+  //console.log(req.body.title)
+    knex('users_maps')
+       .where({id: req.user})
+      .andWhere('favourite', 1)
+      .select('map_id')
+      .then((results) => {
+        res.json(results)
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
+})
+
 app.put("/point/:point_id", (req, res) => {
     //console.log(req.body);
   //console.log(req.body.title)
