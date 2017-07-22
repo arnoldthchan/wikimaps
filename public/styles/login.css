@@ -23,3 +23,14 @@
   width: 50%;
   height: 50%;
 }
+
+.editInfo {
+  display: none;
+}
+
+.editInfo .showInfo {
+  border-radius: 5px;
+  background: #f8f8f8;
+  display: none;
+  padding: 5%;
+}

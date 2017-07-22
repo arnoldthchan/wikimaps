@@ -61,7 +61,3 @@ i.glyphicon-heart {
 @media (max-width: 500px) {
   width: 25%;
 }
-
-.editInfo {
-  display: none;
-}
