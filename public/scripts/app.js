@@ -20,6 +20,10 @@ $(document).ready(() => {
     displayNewMap(mapid);
   });
 
+  $('nav').on('click', 'a#favs', (event) =>{
+    $("#sidebar").toggleClass("active");
+  })
+
   //TEST WITH NUM KEYS (1-5)
   // $(document).on('keyup', (event) => {
   //   switch (event.which) {
