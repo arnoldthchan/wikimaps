@@ -48,7 +48,7 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use("/api/users", usersRoutes(knex));
 
 app.get("/maps", (req, res) => {
-    //console.log("HERE 1");
+    // console.log("HERE 1");
     knex('maps')
       .then((results) => {
         console.log(results)
@@ -94,8 +94,8 @@ app.get("/maps/:map_id/points", (req, res) => {
 });
 
 app.post("/point", (req, res) => {
-    //console.log(req.body);
-  //console.log(req.body.title)
+  // console.log(req.body);
+  // console.log(req.body.title)
     knex('points')
       .insert (
       {

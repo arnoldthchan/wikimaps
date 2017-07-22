@@ -12,10 +12,16 @@ div#googleMap {
   display: none;
 }
 
-.list {
+ul.list {
   font-size: 12pt;
-  font-weight: normal;
-  background: #f5f5f5;
+  background: #f8f8f8;
+  padding: 5px;
+}
+
+.listItem {
+  padding: 10px;
+  color: #777;
+  display: block;
 }
 
 #page-content-wrapper {
@@ -33,18 +39,26 @@ div#googleMap {
   transition: 0.5s;
 }
 
-.sidebar a {
-  padding: 2% 2%;
-  color: #777;
-  display: block;
-}
-
-.sidebar a:hover, .offcanvas a:focus {
+.sidebar a:hover, .offcanvas a:focus, .listItem:hover {
   background: #777;
   color: white;
 }
 
 .active {
+  width: 20%;
+}
+
+i.glyphicon-heart {
+  float: right;
+  font-size: 150%;
+  display: inline-block;
+}
+
+.glyphicon-heart:hover {
+  color: red;
+}
+
+@media (max-width: 500px) {
   width: 25%;
 }
 
