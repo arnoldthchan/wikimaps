@@ -48,11 +48,7 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use("/api/users", usersRoutes(knex));
 
 app.get("/maps", (req, res) => {
-<<<<<<< HEAD
     // console.log("HERE 1");
-=======
-    //console.log("HERE 1");
->>>>>>> a4080e81f6824eb2b97530fc4b7ae7701b6c0abd
     knex('maps')
       .then((results) => {
         console.log(results)
@@ -98,13 +94,8 @@ app.get("/maps/:map_id/points", (req, res) => {
 });
 
 app.post("/point", (req, res) => {
-<<<<<<< HEAD
-    // console.log(req.body);
+  // console.log(req.body);
   // console.log(req.body.title)
-=======
-    //console.log(req.body);
-  //console.log(req.body.title)
->>>>>>> a4080e81f6824eb2b97530fc4b7ae7701b6c0abd
     knex('points')
       .insert (
       {
