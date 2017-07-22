@@ -108,7 +108,7 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(map, 'click', function(event) {
-        addPoint("Click", "Clack", "Cleck", event.latLng.lat(), event.latLng.lng(), true);
+        addPoint("Click", "Clack", "Cleck", event.latLng.lat(), event.latLng.lng(), null, true);
       });
 
       if (curMap) {
@@ -120,16 +120,18 @@ function initMap() {
         console.log(this.html);
       });
 
-      // Add listeners to all evdit buttons
+      // Add listeners to all edit buttons
       $('#googleMap').on('click', '.editButton', function() {
 
-        var marker_id = $(this).closest(".infoDesc").data("marker-id");
+        var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
 
-        marker[marker_id].editing = !marker[marker_id].editing;
+        // Flip edit/show state of window.
+        curMarker.editing = !curMarker.editing;
         $(this).closest(".infoDesc").find(".editInfo").toggle();
         $(this).closest(".infoDesc").find(".showInfo").toggle();
 
-        if (!marker[marker_id].editing) {
+        // update text in show state
+        if (!curMarker.editing) {
           var newTitle = $(this).closest(".infoDesc").find(".editInfo").find("#titleBox").val();
           $(this).closest(".infoDesc").find(".showInfo").find(".titleText").text(newTitle);
 
@@ -137,15 +139,37 @@ function initMap() {
           $(this).closest(".infoDesc").find(".showInfo").find(".descriptionText").text(newDesc);
 
           var newImg = $(this).closest(".infoDesc").find(".editInfo").find("#imgBox").val();
-          $(this).closest(".infoDesc").find(".showInfo").find(".imgText").text(newImg);
-          console.log("SDFDSFDSF");
+          $(this).closest(".infoDesc").find(".showInfo").find(".image").text(newImg);
+
+          // update the database with new position
+
+          debugger;
+
+          $.ajax({
+            url: `/point/${curMarker.db_id}`,
+            data: {title      : newTitle,
+                  description : newDesc,
+                  image       : newImg,
+                  latitude    : curMarker.position.lat(),
+                  longitude   : curMarker.position.lng(),
+                  map_id      : curMarker.map_id,
+                  user_id     : curMarker.user_id},
+            method: "PUT",
+            success: function(data){
+              console.log(data);
+            },
+
+            error: function(err){
+              console.log("errorz");
+            }
+          });
         }
       });
     }
   });
 }
 
-function addPoint(title, desc, img, lat, lng, isNew) {
+function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   // random icon
   var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
@@ -163,8 +187,8 @@ function addPoint(title, desc, img, lat, lng, isNew) {
     image: img,
     info_id: counter,
     map_id: curMap_id,
-    user_id: undefined,
-    db_id: undefined,
+    user_id: 1,
+    db_id: db_id,
     editing: false
   });
 
@@ -226,7 +250,7 @@ function addPoint(title, desc, img, lat, lng, isNew) {
             user_id     : this.user_id},
       method: "PUT",
       success: function(data){
-        console.log(data);
+        //console.log(data);
       },
 
       error: function(err){
@@ -274,6 +298,7 @@ function getPointsFromDB(map_id) {
                  obj[i]["image"],
                  obj[i]["latitude"],
                  obj[i]["longitude"],
+                 obj[i]["id"],
                  false);
       }
     }
