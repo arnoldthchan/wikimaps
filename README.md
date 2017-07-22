@@ -4,7 +4,7 @@
 * Arnold Chan
 * Tak Ng
 
-# :triangular_flag_on_post: Getting Started:triangular_flag_on_post: 
+# :round_pushpin: Getting Started :round_pushpin: 
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
 2. Update the .env file with your correct local information
@@ -17,7 +17,7 @@
 7. Run the server: `npm run local`
 8. Visit `http://localhost:8080/`
 
-# :triangular_flag_on_post:  Dependencies:round_pushpin:
+# :round_pushpin: Dependencies :round_pushpin:
 
 - Node 5.10.x or above
 - NPM 3.8.x or above
