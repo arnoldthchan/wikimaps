@@ -115,7 +115,10 @@ function initMap() {
         getPointsFromDB(curMap["id"]);
       }
 
-
+      // test func for editing info box
+      google.maps.event.addListener(marker, "html_changed", function(){
+        console.log(this.html);
+      });
     }
   });
 }
@@ -131,27 +134,65 @@ function addPoint(title, desc, img, lat, lng, isNew) {
     draggable: true,
     icon: icon,
     animation: google.maps.Animation.DROP,
+
+    // custom properties
     title: title,
     desc: desc,
     image: img,
     info_id: counter,
     map_id: curMap_id,
-    user_id: 1,
-    db_id: 1
+    user_id: undefined,
+    db_id: undefined,
+    editing: false
   });
 
   // Add info window
-  var infoDesc = `<form>
-                    <label for="titleBox">Title</label>
-                    <textarea id="titleBox">${title}</textarea><br/>
-                    <label for="descriptionBox">Description</label>
-                    <textarea id="descriptionBox">${desc}</textarea><br/>
-                    <label for="imgBox">Image</label>
-                    <textarea id="imgBox">${img}</textarea>
-                  </form>`;
+
+  var infoDesc = $("<div class='infoDesc'></div>");
+  var editInfo = $("<form class='editInfo'></form>");
+
+  editInfo.append($(`<label for="titleBox">Title</label>
+                      <textarea id="titleBox">${title}</textarea><br/>
+                      <label for="descriptionBox">Description</label>
+                      <textarea id="descriptionBox">${desc}</textarea><br/>
+                      <label for="imgBox">Image</label>
+                      <textarea id="imgBox">${img}</textarea>`));
+
+  infoDesc.append(editInfo);
+
+  var showInfo = $("<div class='showInfo'</div>");
+
+  showInfo.append($(`<p class="titleText">${title}</p>
+                     <p class="descriptionText">${desc}</p>
+                     <p class="image">${img}</p>`));
+
+  infoDesc.append(showInfo);
+
+  var editButton = $("<button class='editButton'>Edit</button>");
+  infoDesc.append(editButton);
 
   infoWindow[counter] = new google.maps.InfoWindow({
-    content: infoDesc,
+    content: infoDesc.html(),
+    marker_id: counter
+  });
+
+  // //Add listener to Edit button
+  google.maps.event.addDomListener(editButton[0], "click", function() {
+
+    // marker[this.marker_id].editing ? false : true;
+    // $(this).closest(".infoDesc").find(".editInfo").toggle();
+    // $(this).closest(".infoDesc").find(".showInfo").toggle();
+
+    // var newTitle = $(this).closest(".infoDesc").find(".titleBox").text();
+    // $(this).closest(".infoDesc").find(".titleText").text(newTitle);
+
+    // var newDesc = $(this).closest(".infoDesc").find(".descriptionBox").text();
+    // $(this).closest(".infoDesc").find(".descriptionText").text(newDesc);
+
+    // var newImg = $(this).closest(".infoDesc").find(".imgBox").text();
+    // $(this).closest(".infoDesc").find(".imgText").text(newImg);
+
+    console.log("Swtich");
   });
 
   // marker Click
@@ -167,6 +208,7 @@ function addPoint(title, desc, img, lat, lng, isNew) {
   // marker drag
   marker[counter].addListener('dragend', function() {
 
+    // update the database with new position
     $.ajax({
       url: `/point/${this.db_id}`,
       data: {title      : this.title,

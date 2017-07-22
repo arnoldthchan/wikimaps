@@ -37,6 +37,7 @@ div#googleMap{
 
 .sidebar a {
   padding: 2% 2%;
+
   color: $grey;
   display: block;
 }
@@ -48,4 +49,8 @@ div#googleMap{
 
 .active{
   width: 25%;
+}
+
+.editInfo {
+  display: none;
 }

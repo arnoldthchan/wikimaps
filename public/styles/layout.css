@@ -47,3 +47,7 @@ div#googleMap {
 .active {
   width: 25%;
 }
+
+.editInfo {
+  display: none;
+}
