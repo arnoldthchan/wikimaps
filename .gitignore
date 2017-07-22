@@ -1,5 +1,4 @@
 node_modules/
-public/icons
 .env
 *.log
 *.sqlite3
