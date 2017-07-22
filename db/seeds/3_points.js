@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('points').insert({title: 'Toronto',
       description: 'You\'re an American sportscaster',
-      image: 'toronto.png',
+      image: '/icons/toronto.jpg',
       latitude: 43.6532,
       longitude: -79.3832,
       map_id: 1,
@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
 
     knex('points').insert({title: 'Tuhronto',
       description: 'You\'re from Mississauga at best.',
-      image: 'tuhronto.png',
+      image: '/icons/tuhronto.jpg',
       latitude: 43.6632,
       longitude: -79.3732,
       map_id: 1,
@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
 
     knex('points').insert({title: 'Tronno',
       description: 'You\'re a Torontonian.',
-      image: 'tronno.png',
+      image: '/icons/tronno.jpg',
       latitude: 43.6432,
       longitude: -79.3932,
       map_id: 1,
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
 
     knex('points').insert({title: 'Chranna',
       description: 'You pulse sounds liek the TTC chimes and you piss Steamwhistle.',
-      image: 'chranna.png',
+      image: '/icons/chranna.jpg',
       latitude: 43.6632,
       longitude: -79.3932,
       map_id: 1,
