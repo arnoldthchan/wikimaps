@@ -45,7 +45,6 @@ function displayNewMap(map_id) {
     url: `/map/${map_id}`,
     method: "GET",
     success: function(obj){
-      console.dir(obj);
       curMap = obj[0];
 
       if (curMap) {
@@ -109,14 +108,14 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(map, 'click', function(event) {
-        console.log(event.latLng.lat(), event.latLng.lng());
         addPoint("Click", "Clack", "Cleck", event.latLng.lat(), event.latLng.lng(), true);
-        counter++;
       });
 
       if (curMap) {
         getPointsFromDB(curMap["id"]);
       }
+
+
     }
   });
 }
@@ -133,7 +132,12 @@ function addPoint(title, desc, img, lat, lng, isNew) {
     icon: icon,
     animation: google.maps.Animation.DROP,
     title: title,
-    info_id: counter
+    desc: desc,
+    image: img,
+    info_id: counter,
+    map_id: curMap_id,
+    user_id: 1,
+    db_id: 1
   });
 
   // Add info window
@@ -147,9 +151,10 @@ function addPoint(title, desc, img, lat, lng, isNew) {
                   </form>`;
 
   infoWindow[counter] = new google.maps.InfoWindow({
-    content: infoDesc
+    content: infoDesc,
   });
 
+  // marker Click
   marker[counter].addListener('click', function() {
     map.setCenter(this.getPosition());
     for (var i = 0; i < infoWindow.length; i++) {
@@ -159,14 +164,33 @@ function addPoint(title, desc, img, lat, lng, isNew) {
     infoWindow[this.info_id].open(map, this);
   });
 
+  // marker drag
   marker[counter].addListener('dragend', function() {
-    var curMarker = this;
 
-    curMarker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ curMarker.setAnimation(null); }, 400);
+    $.ajax({
+      url: `/point/${this.db_id}`,
+      data: {title      : this.title,
+            description : this.desc,
+            image       : this.image,
+            latitude    : this.position.lat(),
+            longitude   : this.position.lng(),
+            map_id      : this.map_id,
+            user_id     : this.user_id},
+      method: "PUT",
+      success: function(data){
+        console.log(data);
+      },
+
+      error: function(err){
+        console.log("error");
+      }
+    });
+
+    //this.setAnimation(google.maps.Animation.BOUNCE);
+    //setTimeout(function(){ this.setAnimation(null); }, 400);
   });
 
-  //add to database
+  //add to database if it is a new point (created by clicking the map)
   if (isNew) {
     $.ajax({
       url: "/point",
@@ -178,10 +202,16 @@ function addPoint(title, desc, img, lat, lng, isNew) {
             map_id      : curMap_id,
             user_id     : 1},
       method: "POST",
-      success: function(){
-        console.log("OKSDF");
+      success: function(data){
+        marker[counter].db_id = data[0];
+        counter++;
+      },
+      error: function(err){
+        console.log(err);
       }
     });
+  } else {
+    counter++;
   }
 }
 
@@ -190,16 +220,13 @@ function getPointsFromDB(map_id) {
     url: `maps/${map_id}/points`,
     method: "GET",
     success: function(obj) {
-      console.log(obj);
       for (var i = 0; i < obj.length; i++) {
-        console.log(obj[i]);
         addPoint(obj[i]["title"],
                  obj[i]["description"],
                  obj[i]["image"],
                  obj[i]["latitude"],
                  obj[i]["longitude"],
                  false);
-        counter++;
       }
     }
   });

@@ -48,7 +48,7 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use("/api/users", usersRoutes(knex));
 
 app.get("/maps", (req, res) => {
-    console.log("HERE 1");
+    //console.log("HERE 1");
     knex('maps')
       .then((results) => {
         console.log(results)
@@ -56,7 +56,7 @@ app.get("/maps", (req, res) => {
       })
       .catch(function(error) {
         console.log(error)
-    console.log("HERE 3");
+    //console.log("HERE 3");
       })
 });
 
@@ -94,8 +94,8 @@ app.get("/maps/:map_id/points", (req, res) => {
 });
 
 app.post("/point", (req, res) => {
-    console.log(req.body);
-  console.log(req.body.title)
+    //console.log(req.body);
+  //console.log(req.body.title)
     knex('points')
       .insert (
       {
@@ -108,14 +108,13 @@ app.post("/point", (req, res) => {
        user_id     : req.body.user_id
       })
       .returning('id')
-      .then((results) => {
-        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY };
-        res.render("index", templateVars);
+      .then((id) => {
+        res.send(id);
       });
 })
 
 app.post("/users_map", (req, res)=>{
-    console.log(req.body)
+    //console.log(req.body)
     knex('users_maps')
       .insert(
       {
@@ -125,13 +124,13 @@ app.post("/users_map", (req, res)=>{
        contribution : req.body.contribution
       })
       .then((results) => {
-        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY };
+        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user };
         res.render("index", templateVars);
       });
   })
 
 app.post("/map", (req, res) => {
-  console.log(req.body.title)
+  //console.log(req.body.title)
     knex('maps')
       .insert (
       {
@@ -142,10 +141,31 @@ app.post("/map", (req, res) => {
       })
       .returning('id')
       .then((results) => {
-        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY };
+        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user  };
         res.render("index", templateVars);
       });
 });
+
+app.put("/point/:point_id", (req, res) => {
+    //console.log(req.body);
+  //console.log(req.body.title)
+    knex('points')
+      .where({id: req.params.point_id})
+      .update (
+      {
+       title       : req.body.title,
+       description : req.body.description,
+       image       : req.body.image,
+       latitude    : req.body.latitude,
+       longitude   : req.body.longitude,
+       map_id      : req.body.map_id,
+       user_id     : req.body.user_id
+      })
+      .returning('id')
+      .then((id) => {
+        res.send(id)
+      });
+})
 
 app.use(require("cookie-parser")());
 app.use(require("body-parser").urlencoded({ extended: true}));
