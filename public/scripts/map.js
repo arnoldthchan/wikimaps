@@ -119,6 +119,28 @@ function initMap() {
       google.maps.event.addListener(marker, "html_changed", function(){
         console.log(this.html);
       });
+
+      // Add listeners to all evdit buttons
+      $('#googleMap').on('click', '.editButton', function() {
+
+        var marker_id = $(this).closest(".infoDesc").data("marker-id");
+
+        marker[marker_id].editing = !marker[marker_id].editing;
+        $(this).closest(".infoDesc").find(".editInfo").toggle();
+        $(this).closest(".infoDesc").find(".showInfo").toggle();
+
+        if (!marker[marker_id].editing) {
+          var newTitle = $(this).closest(".infoDesc").find(".editInfo").find("#titleBox").val();
+          $(this).closest(".infoDesc").find(".showInfo").find(".titleText").text(newTitle);
+
+          var newDesc = $(this).closest(".infoDesc").find(".editInfo").find("#descriptionBox").val();
+          $(this).closest(".infoDesc").find(".showInfo").find(".descriptionText").text(newDesc);
+
+          var newImg = $(this).closest(".infoDesc").find(".editInfo").find("#imgBox").val();
+          $(this).closest(".infoDesc").find(".showInfo").find(".imgText").text(newImg);
+          console.log("SDFDSFDSF");
+        }
+      });
     }
   });
 }
@@ -148,7 +170,11 @@ function addPoint(title, desc, img, lat, lng, isNew) {
 
   // Add info window
 
-  var infoDesc = $("<div class='infoDesc'></div>");
+  var container = $("<div></div>");
+  var infoDesc = $(`<div class='infoDesc' data-marker-id=${counter}></div>`);
+
+  container.append(infoDesc);
+
   var editInfo = $("<form class='editInfo'></form>");
 
   editInfo.append($(`<label for="titleBox">Title</label>
@@ -172,27 +198,7 @@ function addPoint(title, desc, img, lat, lng, isNew) {
   infoDesc.append(editButton);
 
   infoWindow[counter] = new google.maps.InfoWindow({
-    content: infoDesc.html(),
-    marker_id: counter
-  });
-
-  // //Add listener to Edit button
-  google.maps.event.addDomListener(editButton[0], "click", function() {
-
-    // marker[this.marker_id].editing ? false : true;
-    // $(this).closest(".infoDesc").find(".editInfo").toggle();
-    // $(this).closest(".infoDesc").find(".showInfo").toggle();
-
-    // var newTitle = $(this).closest(".infoDesc").find(".titleBox").text();
-    // $(this).closest(".infoDesc").find(".titleText").text(newTitle);
-
-    // var newDesc = $(this).closest(".infoDesc").find(".descriptionBox").text();
-    // $(this).closest(".infoDesc").find(".descriptionText").text(newDesc);
-
-    // var newImg = $(this).closest(".infoDesc").find(".imgBox").text();
-    // $(this).closest(".infoDesc").find(".imgText").text(newImg);
-
-    console.log("Swtich");
+    content: container.html(),
   });
 
   // marker Click
