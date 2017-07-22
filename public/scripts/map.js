@@ -142,9 +142,6 @@ function initMap() {
           $(this).closest(".infoDesc").find(".showInfo").find(".image").text(newImg);
 
           // update the database with new position
-
-          debugger;
-
           $.ajax({
             url: `/point/${curMarker.db_id}`,
             data: {title      : newTitle,
