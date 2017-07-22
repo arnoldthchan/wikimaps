@@ -41,7 +41,7 @@ div#googleMap{
   display: block;
 }
 
-.sidebar a:hover, .offcanvas a:focus{
+.sidebar a:hover, .offcanvas a:focus, .listItem:hover{
   background: $grey;
   color: white;
 }

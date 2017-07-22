@@ -23,7 +23,6 @@ div#googleMap {
   position: absolute;
 }
 
-/* NEW SIDEBAR */
 .sidebar {
   height: 100%;
   width: 0;
@@ -40,7 +39,7 @@ div#googleMap {
   display: block;
 }
 
-.sidebar a:hover, .offcanvas a:focus {
+.sidebar a:hover, .offcanvas a:focus, .listItem:hover {
   background: #777;
   color: white;
 }
