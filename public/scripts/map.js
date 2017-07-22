@@ -199,11 +199,11 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
   var editInfo = $("<form class='editInfo'></form>");
 
   editInfo.append($(`<label for="titleBox">Title</label>
-                      <textarea id="titleBox">${title}</textarea><br/>
+                      <textarea id="titleBox" class="form-control">${title}</textarea><br/>
                       <label for="descriptionBox">Description</label>
-                      <textarea id="descriptionBox">${desc}</textarea><br/>
+                      <textarea id="descriptionBox" class="form-control">${desc}</textarea><br/>
                       <label for="imgBox">Image</label>
-                      <textarea id="imgBox">${img}</textarea>`));
+                      <textarea id="imgBox" class="form-control">${img}</textarea>`));
 
   infoDesc.append(editInfo);
 
@@ -211,11 +211,11 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
-                     <p class="image">${img}</p>`));
+                     <img src="${img}" class="img-fluid">`));
 
   infoDesc.append(showInfo);
 
-  var editButton = $("<button class='editButton'>Edit</button>");
+  var editButton = $(`<button class="editButton btn btn-success btn-block btn-xs">Edit</button>`);
   infoDesc.append(editButton);
 
   infoWindow[counter] = new google.maps.InfoWindow({

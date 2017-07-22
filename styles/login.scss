@@ -1,4 +1,5 @@
 $bg: #f8f8f8;
+$grey: #777;
 
 /* Mask for background, by default is not display */
 #mask {
@@ -30,8 +31,19 @@ $bg: #f8f8f8;
   display: none;
   .showInfo{
     border-radius: 5px;
-    background: $bg;
-    display: none;
-    padding: 5%;
+    background: $grey;
+    padding: 2%;
+    color: grey;
+    display: inline-block;
   }
+  textarea{
+    resize: none;
+    border-radius: 3px;
+    border-color: white;
+    background-color: $bg;
+    overflow-y: scroll;
+  }
+}
+#imgBox, .img-fluid{
+  margin-bottom: 5px;
 }

@@ -23,3 +23,27 @@
   width: 50%;
   height: 50%;
 }
+
+.editInfo {
+  display: none;
+}
+
+.editInfo .showInfo {
+  border-radius: 5px;
+  background: #777;
+  padding: 2%;
+  color: grey;
+  display: inline-block;
+}
+
+.editInfo textarea {
+  resize: none;
+  border-radius: 3px;
+  border-color: white;
+  background-color: #f8f8f8;
+  overflow-y: scroll;
+}
+
+#imgBox, .img-fluid {
+  margin-bottom: 5px;
+}
