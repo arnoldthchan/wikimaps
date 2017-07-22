@@ -11,7 +11,7 @@ div#googleMap{
 
 /* Hides footer for google maps */
 .gmnoprint a, .gmnoprint span, .gm-style-cc {
-    display:none;
+  display:none;
 }
 
 ul.list{
@@ -30,13 +30,13 @@ ul.list{
 }
 
 .sidebar {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    background-color: $bg;
-    overflow-x: hidden;
-    transition: 0.5s;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  background-color: $bg;
+  overflow-x: hidden;
+  transition: 0.5s;
 }
 
 .sidebar a:hover, .offcanvas a:focus, .listItem:hover{
