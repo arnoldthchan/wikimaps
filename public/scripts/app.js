@@ -8,20 +8,29 @@ $(document).ready(() => {
     url: "/maps"
   }).done((maps) => {
     for(map of maps) {
-      let link = $(`<a>`)
-      // let link = $('<a>').attr('href',`/maps/${map.id}`).text(map.title)
-      let item = $(`<li data-mapid="${map.id}">`).data('asd', map.id).attr("class", "listItem").text(map.title);
+      var heart = $('<i class="float-right glyphicon glyphicon-heart">');
+
+      var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
+      $('div#sidebar').append(fav);
+      var heart = $('<i class="float-right glyphicon glyphicon-heart">');
+
+      var item  = $(`<li data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
       $('ul.list').append(item);
     }
   });
 
-  $("ul.nav").on('click', '.listItem', (event) => {
+  $("body").on('click', '.listItem', (event) => {
     let mapid= $(event.target).data('mapid');
     displayNewMap(mapid);
   });
 
   $('nav').on('click', 'a#favs', (event) =>{
     $("#sidebar").toggleClass("active");
+  })
+  $('body').on('click', '.glyphicon-heart', (event) =>{
+    event.stopPropagation();
+    console.log('HEART CLICKED');
+    console.log($(event.target).parent('.listItem').data('mapid'))
   })
 
   //TEST WITH NUM KEYS (1-5)
