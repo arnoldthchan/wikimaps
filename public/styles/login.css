@@ -44,6 +44,11 @@
   overflow-y: scroll;
 }
 
-#imgBox, .img-fluid {
-  margin-bottom: 5px;
+.showImg {
+  max-height: 200px;
+  margin-bottom: 10px;
+}
+
+#imgBox {
+  margin-bottom: 10px;
 }
