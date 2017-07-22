@@ -71,6 +71,17 @@ app.get("/maps/:user_id", (req, res) => {
       })
 });
 
+app.get("/map/:map_id", (req, res) => {
+    knex('maps')
+      .where({id: req.params.map_id})
+      .then((results) => {
+        res.json(results)
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
+});
+
 app.get("/maps/:map_id/points", (req, res) => {
     knex('points')
       .where({map_id: req.params.map_id})
