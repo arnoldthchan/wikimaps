@@ -1,21 +1,6 @@
 $sidebarWidth: 20%;
 $grey: #777;
 $bg: #f8f8f8;
-body {
-  background-color: $bg;
-
-  h1 {
-    color: #244751;
-  }
-}
-
-span#list-box{
-  padding: 0 2%;
-  position: relative;
-  height: 100%;
-  width: 20%;
-  float: left;
-}
 
 div#googleMap{
   width: 100%;
@@ -26,21 +11,16 @@ div#googleMap{
 .gmnoprint a, .gmnoprint span, .gm-style-cc {
     display:none;
 }
+
 a.list{
   font-size: 12pt;
   font-weight: normal;
 }
- body {
-    overflow-x: hidden;
- }
 
 /* Toggle Styles */
 
 #wrapper {
     padding-left: 0;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
 
@@ -56,9 +36,6 @@ a.list{
     margin-left: -$sidebarWidth;
     overflow-y: auto;
     background: #f8f8f8;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
 
