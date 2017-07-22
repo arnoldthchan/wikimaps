@@ -2,7 +2,6 @@
 $(document).ready(() => {
 
   var map;
-
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -10,15 +9,20 @@ $(document).ready(() => {
     for(map of maps) {
       var heart = $('<i class="float-right glyphicon glyphicon-heart">');
 
-      var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
-      $('div#sidebar').append(fav);
-      var heart = $('<i class="float-right glyphicon glyphicon-heart">');
-
       var item  = $(`<li data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
       $('ul.list').append(item);
     }
   });
-
+  $.ajax({
+    method: "GET",
+    url: "/favourite"
+  }).done((maps) => {
+    for(map of maps) {
+      var heart = $('<i class="float-right glyphicon glyphicon-heart">');
+      var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
+      $('div#sidebar').append(fav);
+    }
+  });
   $("body").on('click', '.listItem', (event) => {
     let mapid= $(event.target).data('mapid');
     displayNewMap(mapid);
