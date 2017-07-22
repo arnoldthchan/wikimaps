@@ -25,3 +25,13 @@ $bg: #f8f8f8;
   width: 50%;
   height: 50%;
 }
+
+.editInfo {
+  display: none;
+  .showInfo{
+    border-radius: 5px;
+    background: $bg;
+    display: none;
+    padding: 5%;
+  }
+}

@@ -212,7 +212,7 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   var showInfo = $("<div class='showInfo'</div>");
 
-  showInfo.append($(`<p class="titleText">${title}</p>
+  showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
                      <p class="image">${img}</p>`));
 
