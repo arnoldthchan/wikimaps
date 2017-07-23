@@ -15,13 +15,14 @@
   border-radius: 5px;
   background: #f8f8f8;
   display: none;
-  padding: 5%;
+  padding: 0 5%;
   position: fixed;
-  top: 50%;
+  top: 45%;
   left: 50%;
   z-index: 99999;
   width: 50%;
-  height: 50%;
+  height: 80%;
+  margin: -25% -25%;
 }
 
 .editInfo {
@@ -51,4 +52,12 @@
 
 #imgBox {
   margin-bottom: 10px;
+}
+
+.list-group-item {
+  padding: 3px;
+}
+
+.close {
+  padding: 20px 0;
 }
