@@ -35,7 +35,7 @@ $(document).ready(() => {
   })
   $('body').on('click', '.glyphicon-heart', (event) =>{
     event.stopPropagation();
-    console.log('HEART CLICKED');
+    // console.log('HEART CLICKED');
     console.log($(event.target).parent('.listItem').data('mapid'))
   })
 

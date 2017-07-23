@@ -14,20 +14,21 @@ $grey: #777;
   opacity: 0.6;
 }
 
-.login-popup {
+.popup{
   border-radius: 5px;
   background: $bg;
   display: none;
-  padding: 0 5%;
+  padding: 0 5% 5%;
   position: fixed;
   top: 45%;
   left: 50%;
   z-index: 99999;
   width: 50%;
-  height: 80%;
-  margin: -25% -25%;
+  margin: -30% -25%;
 }
-
+form#register{
+  margin-top: 25px;
+}
 .editInfo {
   display: none;
   .showInfo{
@@ -56,8 +57,12 @@ $grey: #777;
 }
 
 .list-group-item {
-  padding: 3px
+  padding: 5px;
 }
 .close{
   padding: 20px 0;
 }
+.list-group {
+  margin-bottom: 5px;
+}
+
