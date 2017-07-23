@@ -29,7 +29,7 @@ ul.list {
   position: absolute;
 }
 
-.sidebar {
+ul.sidebar {
   height: 100%;
   width: 0;
   position: fixed;
@@ -37,6 +37,12 @@ ul.list {
   background-color: #f8f8f8;
   overflow-x: hidden;
   transition: 0.5s;
+}
+
+.listItem {
+  padding: 10px;
+  color: #777;
+  display: block;
 }
 
 .sidebar a:hover, .offcanvas a:focus, .listItem:hover {

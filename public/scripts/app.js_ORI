@@ -13,7 +13,6 @@ $(document).ready(() => {
       $('ul.list').append(item);
     }
   });
-
   $.ajax({
     method: "GET",
     url: "/favourite"
@@ -24,7 +23,6 @@ $(document).ready(() => {
       $('div#sidebar').append(fav);
     }
   });
-
   $("body").on('click', '.listItem', (event) => {
     let mapid= $(event.target).data('mapid');
     displayNewMap(mapid);

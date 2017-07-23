@@ -47,11 +47,31 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+app.get("/favourite", (req, res) => {
+// knex.select('*').from('maps').join('users_map', function() {
+//   this.on('maps.id', '=', 'users_maps.map_id').onIn('users_maps.id', [req.user]).onIn('users_maps.favourite', [1])
+// })
+knex('maps')
+.join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+// .select('maps.id', 'maps.title')
+      .select('id')
+      .select('title')
+      .then((results) => {
+console.log(" TAK - fav");
+console.log(results);
+        res.json(results)
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
+})
+
 app.get("/maps", (req, res) => {
     // console.log("HERE 1");
     knex('maps')
       .then((results) => {
-        console.log(results)
+console.log(" TAK - maps");
+console.log(results)
         res.json(results)
       })
       .catch(function(error) {
@@ -145,28 +165,6 @@ app.post("/map", (req, res) => {
         res.render("index", templateVars);
       });
 });
-
-app.get("/favourite", (req, res) => {
-    //console.log(req.body);
-  //console.log(req.body.title)
-
-
-// knex.select('*').from('maps').join('users_map', function() {
-//   this.on('maps.id', '=', 'users_maps.map_id').onIn('users_maps.id', [req.user]).onIn('users_maps.favourite', [1])
-// })
-
-knex('maps')
-.join('users_maps', 'maps.id', '=', 'users_maps.map_id')
-.select('maps.id', 'maps.title')
-//      .select('id')
-//      .select('title')
-      .then((results) => {
-        res.json(results)
-      })
-      .catch(function(error) {
-        console.log(error)
-      });
-})
 
 app.put("/point/:point_id", (req, res) => {
     //console.log(req.body);
