@@ -64,7 +64,7 @@
             </div>
           <% } %>
     </nav>
-    <% if (user) { %>
+    <% if (user.id !== 0) { %>
       <div id="popup-box" class="popup">
         <a href="#" class="close">X</a>
         <h3><%= user.name%></h3>
