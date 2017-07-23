@@ -99,7 +99,7 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(gMap, 'click', function(event) {
-        addPoint("Click", "Clack", "chranna.jpg", event.latLng.lat(), event.latLng.lng(), null, true);
+        addNewPoint("Click", "Clack", "chranna.jpg", event.latLng.lat(), event.latLng.lng());
       });
 
       if (curMap) {
@@ -110,6 +110,7 @@ function initMap() {
       $('#googleMap').on('click', '.editButton', function() {
 
         var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
+
         if (curUser_id === curMarker.user_id) {
 
         // Flip edit/show state of window.
@@ -129,24 +130,27 @@ function initMap() {
           $(this).closest(".infoDesc").find(".showInfo").find(".image").text(newImg);
 
             // update the database with new position
-            $.ajax({
-              url: `/point/${curMarker.db_id}`,
-              data: {title      : newTitle,
-                    description : newDesc,
-                    image       : newImg,
-                    latitude    : curMarker.position.lat(),
-                    longitude   : curMarker.position.lng(),
-                    map_id      : curMarker.map_id,
-                    user_id     : curMarker.user_id},
-              method: "PUT",
-              success: function(data){
-                console.log(data);
-              },
+            if (curUser_id !== 0) {
+              $.ajax({
+                url: `/point/${curMarker.db_id}`,
+                data: {title      : newTitle,
+                      description : newDesc,
+                      image       : newImg,
+                      latitude    : curMarker.position.lat(),
+                      longitude   : curMarker.position.lng(),
+                      map_id      : curMarker.map_id,
+                      user_id     : curMarker.user_id},
+                method: "PUT",
+                success: function(data){
+                  console.log(data);
+                },
 
-              error: function(err){
-                console.log("errorz");
-              }
-            });
+                error: function(err){
+                  debugger;
+                  console.log("errorz");
+                }
+              });
+            }
           }
         }
       });
@@ -154,28 +158,8 @@ function initMap() {
   });
 }
 
-function addPoint(title, desc, img, lat, lng, db_id, isNew) {
-
-  // random icon
-  var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
-
-  marker[counter] = new google.maps.Marker({
-    position: new google.maps.LatLng(lat, lng),
-    map: gMap,
-    draggable: true,
-    icon: icon,
-    animation: google.maps.Animation.DROP,
-
-    // custom properties
-    title: title,
-    desc: desc,
-    image: img,
-    info_id: counter,
-    map_id: curMap_id,
-    user_id: curUser_id,
-    db_id: db_id,
-    editing: false
-  });
+// Code common to both addNewPoint and addExistingPoint
+function addPointCommon(title, desc, img, user_id) {
 
   // Add info window
 
@@ -199,7 +183,8 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
-                     <img src="/images/${img}" class="img-responsive showImg">`));
+                     <img src="/images/${img}" class="img-responsive showImg">
+                     <p class="userText">Created by: ${user_id}</p>`));
 
   infoDesc.append(showInfo);
 
@@ -221,34 +206,92 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
   });
 
   // marker drag
-  marker[counter].addListener('dragend', function() {
+  if (user_id !== curUser_id) {
+    marker[counter].setDraggable(false);
+  } else {
+    marker[counter].addListener('dragend', function() {
 
-    // update the database with new position
-    $.ajax({
-      url: `/point/${this.db_id}`,
-      data: {title      : this.title,
-            description : this.desc,
-            image       : this.image,
-            latitude    : this.position.lat(),
-            longitude   : this.position.lng(),
-            map_id      : this.map_id,
-            user_id     : this.user_id},
-      method: "PUT",
-      success: function(data){
-        //console.log(data);
-      },
+      // update the database with new position
+      if (curUser_id !== 0) {
+        $.ajax({
+          url: `/point/${this.db_id}`,
+          data: {title      : this.title,
+                description : this.desc,
+                image       : this.image,
+                latitude    : this.position.lat(),
+                longitude   : this.position.lng(),
+                map_id      : this.map_id,
+                user_id     : this.user_id},
+          method: "PUT",
+          success: function(data){
+          },
 
-      error: function(err){
-        console.log("error");
+          error: function(err){
+            console.log("error");
+          }
+        });
       }
     });
+  }
+}
 
-    //this.setAnimation(google.maps.Animation.BOUNCE);
-    //setTimeout(function(){ this.setAnimation(null); }, 400);
+// Add a point from the database
+function addExistingPoint(title, desc, img, lat, lng, map_id, user_id, db_id) {
+
+  // random icon
+  var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
+
+  marker[counter] = new google.maps.Marker({
+    position: new google.maps.LatLng(lat, lng),
+    map: gMap,
+    draggable: true,
+    icon: icon,
+    animation: google.maps.Animation.DROP,
+
+    // custom properties
+    title: title,
+    desc: desc,
+    image: img,
+    info_id: counter,
+    map_id: map_id,
+    user_id: user_id,
+    db_id: db_id,
+    editing: false
   });
 
-  //add to database if it is a new point (created by clicking the map)
-  if (isNew && curUser_id !== 0) {
+  addPointCommon(title, desc, img, user_id);
+
+  counter++;
+}
+
+// Add a new point on the map
+function addNewPoint(title, desc, img, lat, lng) {
+
+  // random icon
+  var icon = iconBase + markerColours[randomInt(0,markerColours.length-1)];
+
+  marker[counter] = new google.maps.Marker({
+    position: new google.maps.LatLng(lat, lng),
+    map: gMap,
+    draggable: true,
+    icon: icon,
+    animation: google.maps.Animation.DROP,
+
+    // custom properties
+    title: title,
+    desc: desc,
+    image: img,
+    info_id: counter,
+    map_id: curMap_id,
+    user_id: curUser_id,
+    db_id: undefined,
+    editing: false
+  });
+
+  addPointCommon(title, desc, img, curUser_id);
+
+  //add to database
+  if (curUser_id !== 0) {
     $.ajax({
       url: "/point",
       data: {title      : title,
@@ -278,13 +321,14 @@ function getPointsFromDB(map_id) {
     method: "GET",
     success: function(obj) {
       for (var i = 0; i < obj.length; i++) {
-        addPoint(obj[i]["title"],
-                 obj[i]["description"],
-                 obj[i]["image"],
-                 obj[i]["latitude"],
-                 obj[i]["longitude"],
-                 obj[i]["id"],
-                 false);
+        addExistingPoint(obj[i]["title"],
+                         obj[i]["description"],
+                         obj[i]["image"],
+                         obj[i]["latitude"],
+                         obj[i]["longitude"],
+                         obj[i]["map_id"],
+                         obj[i]["user_id"],
+                         obj[i]["id"]);
       }
     }
   });
