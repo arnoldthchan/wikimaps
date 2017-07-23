@@ -1,7 +1,21 @@
 
+function checkFav(userID, mapID){
+  console.log('HEART CLICKED');
+  console.log('User:', userID);
+  console.log('Map:', mapID);
+  knex('maps')
+  .then((results) => {
+    res.json(results)
+  })
+  .catch(function(error) {
+    console.log(error)
+  });
+}
+
 $(document).ready(() => {
 
   var map;
+
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -16,7 +30,7 @@ $(document).ready(() => {
 
   $.ajax({
     method: "GET",
-    url: "/favourite"
+    url: `favourites/${userJSON.id}`,
   }).done((maps) => {
     for(map of maps) {
       var heart = $('<i class="float-right glyphicon glyphicon-heart">');
@@ -33,11 +47,12 @@ $(document).ready(() => {
   $('nav').on('click', 'a#favs', (event) =>{
     $("#sidebar").toggleClass("active");
   })
+
   $('body').on('click', '.glyphicon-heart', (event) =>{
     event.stopPropagation();
-    // console.log('HEART CLICKED');
-    console.log($(event.target).parent('.listItem').data('mapid'))
-  })
+    let mapID = $(event.target).parent('.listItem').data('mapid')
+    checkFav(userJSON.id, mapID);
+  });
 
   //TEST WITH NUM KEYS (1-5)
   // $(document).on('keyup', (event) => {

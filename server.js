@@ -58,23 +58,34 @@ function renderHelper(req, res) {
   res.render("index", templateVars);
 }
 
-app.get("/favourite", (req, res) => {
-// knex.select('*').from('maps').join('users_map', function() {
-//   this.on('maps.id', '=', 'users_maps.map_id').onIn('users_maps.id', [req.user]).onIn('users_maps.favourite', [1])
-// })
-knex('maps')
-.join('users_maps', 'maps.id', '=', 'users_maps.map_id')
-// .select('maps.id', 'maps.title')
-      .select('id')
-      .select('title')
-      .then((results) => {
-//console.log(" TAK - fav");
-//console.log(results);
-        res.json(results)
-      })
-      .catch(function(error) {
-        //console.log(error)
-      });
+app.get("/contributions/:user_id", (req, res) => {
+  knex('maps')
+  .join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+  .where({user_id: req.params.user_id})
+  .andWhere('contribution', true)
+  .select('id')
+  .select('title')
+  .then((results) => {
+    res.json(results)
+  })
+  .catch(function(error) {
+    console.log(error)
+  });
+})
+
+app.get("/favourites/:user_id", (req, res) => {
+  knex('maps')
+  .join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+  .where({user_id: req.params.user_id})
+  .andWhere('favourite', true)
+  .select('id')
+  .select('title')
+  .then((results) => {
+    res.json(results)
+  })
+  .catch(function(error) {
+    console.log(error)
+  });
 })
 
 app.get("/users", (req, res) => {

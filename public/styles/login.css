@@ -17,11 +17,10 @@
   display: none;
   padding: 0 5% 5%;
   position: fixed;
-  top: 55vh;
-  left: 55vh;
+  top: 30%;
+  left: 25%;
   z-index: 99999;
   width: 50%;
-  margin: -30% -25%;
 }
 
 form#register {

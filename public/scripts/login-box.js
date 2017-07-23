@@ -23,14 +23,24 @@ $(document).ready(function() {
     event.preventDefault();
     $("#wrapper").toggleClass("toggled");
   });
+
   $.ajax({
     method: "GET",
-    url: "/favourite"
+    url: `favourites/${userJSON.id}`,
   }).done((maps) => {
     for(map of maps) {
       var fav = $(`<li data-mapid="${map.id}" class="list-group-item">${map.title}</li>`);
       var heart = $('<i class="glyphicon glyphicon-heart">');
       $('ul.favs').append(heart, fav);
+    }
+  });
+  $.ajax({
+    method: "GET",
+    url: `contributions/${userJSON.id}`,
+  }).done((maps) => {
+    for(map of maps) {
+      var contri = $(`<li data-mapid="${map.id}" class="list-group-item">${map.title}</li>`);
+      $('ul.contributions').append(contri);
     }
   });
 });
