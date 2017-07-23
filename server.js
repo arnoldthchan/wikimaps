@@ -77,6 +77,16 @@ knex('maps')
       });
 })
 
+app.get("/users", (req, res) => {
+  knex('users')
+  .then((results) => {
+    res.json(results)
+  })
+  .catch((error) => {
+    console.log("Error users");
+  })
+})
+
 app.get("/maps", (req, res) => {
     // //console.log("HERE 1");
     knex('maps')

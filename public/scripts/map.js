@@ -4,6 +4,7 @@ var curUser_id = userJSON.id;
 var counter = 0;
 var marker = [];
 var infoWindow = [];
+var users_list = [];
 
 var iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/';
 var markerColours = [
@@ -20,29 +21,18 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-function displayNewMap(map_id) {
+function initApp() {
 
-  curMap_id = map_id;
-
-  for (var i = 0; i < counter; i++) {
-    marker[i].setMap(null);
-    infoWindow[i].setMap(null);
-  }
-
-  counter = 0;
-  var curMap;
-
+  // get all user names
   $.ajax({
-    url: `/map/${map_id}`,
+    url: "/users",
     method: "GET",
     success: function(obj){
-      curMap = obj[0];
-
-      if (curMap) {
-        gMap.setCenter(new google.maps.LatLng(curMap['latitude'],curMap['longitude']));
-        gMap.setZoom(12);
-        getPointsFromDB(curMap["id"]);
+      users_list.push("Guest");
+      for (var i = 0; i < obj.length; i++) {
+        users_list.push(obj[i]['name']);
       }
+      initMap();
     }
   });
 }
@@ -99,7 +89,7 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(gMap, 'click', function(event) {
-        addNewPoint("Click", "Clack", "chranna.jpg", event.latLng.lat(), event.latLng.lng());
+        addNewPoint("Raccoon", "Trash Panda", "chranna.jpg", event.latLng.lat(), event.latLng.lng());
       });
 
       if (curMap) {
@@ -158,6 +148,33 @@ function initMap() {
   });
 }
 
+function displayNewMap(map_id) {
+
+  curMap_id = map_id;
+
+  for (var i = 0; i < counter; i++) {
+    marker[i].setMap(null);
+    infoWindow[i].setMap(null);
+  }
+
+  counter = 0;
+  var curMap;
+
+  $.ajax({
+    url: `/map/${map_id}`,
+    method: "GET",
+    success: function(obj){
+      curMap = obj[0];
+
+      if (curMap) {
+        gMap.setCenter(new google.maps.LatLng(curMap['latitude'],curMap['longitude']));
+        gMap.setZoom(12);
+        getPointsFromDB(curMap["id"]);
+      }
+    }
+  });
+}
+
 // Code common to both addNewPoint and addExistingPoint
 function addPointCommon(title, desc, img, user_id) {
 
@@ -184,7 +201,7 @@ function addPointCommon(title, desc, img, user_id) {
   showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
                      <img src="/images/${img}" class="img-responsive showImg">
-                     <p class="userText">Created by: ${user_id}</p>`));
+                     <p class="userText">Created by: ${users_list[user_id]}</p>`));
 
   infoDesc.append(showInfo);
 
