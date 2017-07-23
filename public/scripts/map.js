@@ -19,16 +19,6 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// function getMapData(map_id) {
-//   $.ajax({
-//     url: `/map/${map_id}`,
-//     method: "GET",
-//     success: function(obj){
-//       return obj;
-//     }
-//   });
-// }
-
 function displayNewMap(map_id) {
 
   curMap_id = map_id;
@@ -59,6 +49,7 @@ function displayNewMap(map_id) {
 function initMap() {
 
   var curMap;
+ console.log(userJSON.id);
 
   $.ajax({
     url: "/maps",

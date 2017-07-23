@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="styles/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
+
+    <script>
+      var userJSON = <%- JSON.stringify(user) %>;
+    </script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <!--     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script> -->
@@ -23,7 +27,7 @@
         <a class="navbar-brand">Wikimaps</a>
           <ul class="nav navbar-nav">
             <li>
-              <% if (user) { %>
+              <% if (user.id !== 0) { %>
                 <a href="#" id="favs">Favourites</a>
               <% } %>
             </li>
@@ -35,7 +39,7 @@
             </li>
           </ul>
 
-          <% if (!user) { %>
+          <% if (user.id === 0) { %>
             <form id="login" action="/login" method="post" class="navbar-form navbar-right" role="form">
               <div class="form-group">
                   <input id="username" type="text" class="form-control" name="username" placeholder="Username">
