@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  var map;
   $('a.popup-window').click(function() {
 
     //Fade in the Popup
