@@ -149,10 +149,17 @@ app.post("/map", (req, res) => {
 app.get("/favourite", (req, res) => {
     //console.log(req.body);
   //console.log(req.body.title)
-    knex('users_maps')
-      .where({user_id: req.user})
-      .andWhere('favourite', 1)
-      .select('map_id')
+
+
+// knex.select('*').from('maps').join('users_map', function() {
+//   this.on('maps.id', '=', 'users_maps.map_id').onIn('users_maps.id', [req.user]).onIn('users_maps.favourite', [1])
+// })
+
+knex('maps')
+.join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+.select('maps.id', 'maps.title')
+//      .select('id')
+//      .select('title')
       .then((results) => {
         res.json(results)
       })
