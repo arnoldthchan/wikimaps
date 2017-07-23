@@ -211,7 +211,7 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
-                     <img src="${img}" class="img-responsive showImg">`));
+                     <img src="/images/${img}" class="img-responsive showImg">`));
 
   infoDesc.append(showInfo);
 
