@@ -58,6 +58,14 @@ i.glyphicon-heart {
   color: red;
 }
 
+.liked {
+  color: firebrick;
+}
+
+.liked:hover {
+  color: #f8f8f8;
+}
+
 @media (max-width: 500px) {
   width: 25%;
 }
