@@ -43,9 +43,20 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 
-
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
+
+function renderHelper(req, res) {
+  let templateVars;
+
+  if (req.user) {
+    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user };
+  } else {
+    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: { id:0, name:'Guest', email:"guest@guest.com", password:"none"}};
+  }
+
+  res.render("index", templateVars);
+}
 
 app.get("/favourite", (req, res) => {
 // knex.select('*').from('maps').join('users_map', function() {
@@ -57,26 +68,26 @@ knex('maps')
       .select('id')
       .select('title')
       .then((results) => {
-console.log(" TAK - fav");
-console.log(results);
+//console.log(" TAK - fav");
+//console.log(results);
         res.json(results)
       })
       .catch(function(error) {
-        console.log(error)
+        //console.log(error)
       });
 })
 
 app.get("/maps", (req, res) => {
-    // console.log("HERE 1");
+    // //console.log("HERE 1");
     knex('maps')
       .then((results) => {
-console.log(" TAK - maps");
-console.log(results)
+//console.log(" TAK - maps");
+//console.log(results)
         res.json(results)
       })
       .catch(function(error) {
-        console.log(error)
-    //console.log("HERE 3");
+        //console.log(error)
+    ////console.log("HERE 3");
       })
 });
 
@@ -87,7 +98,7 @@ app.get("/maps/:user_id", (req, res) => {
         res.json(results)
       })
       .catch(function(error) {
-        console.log(error)
+        //console.log(error)
       })
 });
 
@@ -98,7 +109,7 @@ app.get("/map/:map_id", (req, res) => {
         res.json(results)
       })
       .catch(function(error) {
-        console.log(error)
+        //console.log(error)
       })
 });
 
@@ -109,13 +120,13 @@ app.get("/maps/:map_id/points", (req, res) => {
         res.json(results)
       })
       .catch(function(error) {
-        console.log(error)
+        //console.log(error)
       })
 });
 
 app.post("/point", (req, res) => {
-  // console.log(req.body);
-  // console.log(req.body.title)
+  // //console.log(req.body);
+  // //console.log(req.body.title)
     knex('points')
       .insert (
       {
@@ -134,7 +145,7 @@ app.post("/point", (req, res) => {
 })
 
 app.post("/users_map", (req, res)=>{
-    //console.log(req.body)
+    ////console.log(req.body)
     knex('users_maps')
       .insert(
       {
@@ -144,13 +155,12 @@ app.post("/users_map", (req, res)=>{
        contribution : req.body.contribution
       })
       .then((results) => {
-        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user };
-        res.render("index", templateVars);
+        renderHelper(req, res);
       });
   })
 
 app.post("/map", (req, res) => {
-  //console.log(req.body.title)
+  ////console.log(req.body.title)
     knex('maps')
       .insert (
       {
@@ -161,14 +171,13 @@ app.post("/map", (req, res) => {
       })
       .returning('id')
       .then((results) => {
-        let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user  };
-        res.render("index", templateVars);
+        renderHelper(req, res);
       });
 });
 
 app.put("/point/:point_id", (req, res) => {
-    //console.log(req.body);
-  //console.log(req.body.title)
+    ////console.log(req.body);
+  ////console.log(req.body.title)
     knex('points')
       .where({id: req.params.point_id})
       .update (
@@ -241,12 +250,7 @@ app.use(passport.session());
 
 // Home page
 app.get("/", (req, res) => {
-  let templateVars =
-  { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
-    user: req.user
-  };
-  // console.log('USER ID SESSION:', req._passport.session);
-  return res.render("index", templateVars);
+  renderHelper(req, res);
 });
 
 app.post("/login",
@@ -260,7 +264,7 @@ app.post('/register',
     .count('name')
     .where('name', req.body.username)
     .then((results) => {
-      console.log(results[0].count)
+      //console.log(results[0].count)
       if(results[0].count == 0){
         knex('users')
         .insert({
@@ -270,14 +274,10 @@ app.post('/register',
         })
         .returning('id')
         .then((results) => {
-          let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
-          user: req.user};
-          res.render("index", templateVars);
+          renderHelper(req, res);
         });
       }
-      let templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY,
-        user: req.user};
-      res.render("index", templateVars);
+      renderHelper(req, res);
     });
 
   });
@@ -291,10 +291,10 @@ app.get('/logout',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('/'),
   (req, res) => {
-    console.log(req.user);
+    //console.log(req.user);
     res.render('profile', { user: req.user });
   });
 
 app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
+  console.log("Wikimaps listening on port " + PORT);
 });
