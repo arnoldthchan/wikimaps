@@ -248,7 +248,7 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
   });
 
   //add to database if it is a new point (created by clicking the map)
-  if (isNew) {
+  if (isNew && curUser_id !== 0) {
     $.ajax({
       url: "/point",
       data: {title      : title,
