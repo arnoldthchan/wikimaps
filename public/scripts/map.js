@@ -99,7 +99,7 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(gMap, 'click', function(event) {
-        addPoint("Click", "Clack", "chranna.jpg", event.latLng.lat(), event.latLng.lng(), null, true);
+        addPoint("Racoon", "Desc.", "chranna.jpg", event.latLng.lat(), event.latLng.lng(), null, true);
       });
 
       if (curMap) {
