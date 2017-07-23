@@ -40,8 +40,7 @@ ul.list {
 }
 
 .sidebar a:hover, .offcanvas a:focus, .listItem:hover {
-  background: #777;
-  color: white;
+  background: #e7e7e7;
 }
 
 .active {
@@ -56,6 +55,9 @@ i.glyphicon-heart {
 
 .glyphicon-heart:hover {
   color: red;
+  -webkit-transform: scale(1.7);
+  -ms-transform: scale(1.7);
+  transform: scale(1.7);
 }
 
 .liked {
@@ -64,6 +66,9 @@ i.glyphicon-heart {
 
 .liked:hover {
   color: #f8f8f8;
+  -webkit-transform: scale(1.7);
+  -ms-transform: scale(1.7);
+  transform: scale(1.7);
 }
 
 @media (max-width: 500px) {

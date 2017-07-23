@@ -41,8 +41,7 @@ ul.list{
 }
 
 .sidebar a:hover, .offcanvas a:focus, .listItem:hover{
-  background: $grey;
-  color: white;
+  background: #e7e7e7;
 }
 
 .active{
@@ -53,14 +52,22 @@ i.glyphicon-heart{
   font-size: 125%;
   display: inline-block;
 }
+
+$scalesize: 1.7;
 .glyphicon-heart:hover{
   color:red;
+  -webkit-transform: scale($scalesize);
+  -ms-transform: scale($scalesize);
+  transform: scale($scalesize);
 }
 .liked{
   color: firebrick;
 }
 .liked:hover{
   color: $bg;
+  -webkit-transform: scale($scalesize);
+  -ms-transform: scale($scalesize);
+  transform: scale($scalesize);
 }
 
 @media (max-width: 500px) {
