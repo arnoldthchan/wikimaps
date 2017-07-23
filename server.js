@@ -150,7 +150,7 @@ app.get("/favourite", (req, res) => {
     //console.log(req.body);
   //console.log(req.body.title)
     knex('users_maps')
-      .where({id: req.user})
+      .where({user_id: req.user})
       .andWhere('favourite', 1)
       .select('map_id')
       .then((results) => {
