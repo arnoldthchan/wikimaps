@@ -73,7 +73,7 @@ app.get("/contributions/:user_id", (req, res) => {
   });
 })
 
-app.get("/favourites", (req, res) => {
+app.put("/favourites", (req, res) => {
   knex('users_maps')
   .where({
     map_id: req.query.map_id,

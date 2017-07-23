@@ -45,7 +45,23 @@ $(document).ready(() => {
     event.stopPropagation();
     let mapID = $(event.target).parent('.listItem').data('mapid');
     $(event.target).toggleClass("liked");
-    checkFav(userJSON.id, mapID);
+
+    let isLiked = $(event.target).hasClass("liked");
+
+    if (userJSON.id !== 0) {
+      $.ajax({
+        url: `/favourites?user_id=${userJSON.id}&map_id=${mapID}&state=${isLiked}`,
+        method: "PUT",
+        success: function() {
+          console.log("OKey-dokey");
+        },
+
+        error: function(err) {
+          console.log(err);
+        }
+      })
+    }
+    //checkFav(userJSON.id, mapID);
   });
 
   //TEST WITH NUM KEYS (1-5)
