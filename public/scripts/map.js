@@ -1,5 +1,6 @@
-var map;
+var gMap;
 var curMap_id;
+var curUser_id = userJSON.id;
 var counter = 0;
 var marker = [];
 var infoWindow = [];
@@ -38,8 +39,8 @@ function displayNewMap(map_id) {
       curMap = obj[0];
 
       if (curMap) {
-        map.setCenter(new google.maps.LatLng(curMap['latitude'],curMap['longitude']));
-        map.setZoom(12);
+        gMap.setCenter(new google.maps.LatLng(curMap['latitude'],curMap['longitude']));
+        gMap.setZoom(12);
         getPointsFromDB(curMap["id"]);
       }
     }
@@ -49,7 +50,6 @@ function displayNewMap(map_id) {
 function initMap() {
 
   var curMap;
- console.log(userJSON.id);
 
   $.ajax({
     url: "/maps",
@@ -83,7 +83,7 @@ function initMap() {
       }
 
       // init map
-      map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      gMap = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
       // Hide POI
       // var styles = {
@@ -95,26 +95,22 @@ function initMap() {
       //   }]
       // };
 
-      // map.setOptions({styles: styles['default']})
+      // gMap.setOptions({styles: styles['default']})
 
       //add listener for adding markers
-      google.maps.event.addListener(map, 'click', function(event) {
-        addPoint("Click", "Clack", "Cleck", event.latLng.lat(), event.latLng.lng(), null, true);
+      google.maps.event.addListener(gMap, 'click', function(event) {
+        addPoint("Click", "Clack", "chranna.jpg", event.latLng.lat(), event.latLng.lng(), null, true);
       });
 
       if (curMap) {
         getPointsFromDB(curMap["id"]);
       }
 
-      // test func for editing info box
-      google.maps.event.addListener(marker, "html_changed", function(){
-        console.log(this.html);
-      });
-
       // Add listeners to all edit buttons
       $('#googleMap').on('click', '.editButton', function() {
 
         var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
+        if (curUser_id === curMarker.user_id) {
 
         // Flip edit/show state of window.
         curMarker.editing = !curMarker.editing;
@@ -132,25 +128,26 @@ function initMap() {
           var newImg = $(this).closest(".infoDesc").find(".editInfo").find("#imgBox").val();
           $(this).closest(".infoDesc").find(".showInfo").find(".image").text(newImg);
 
-          // update the database with new position
-          $.ajax({
-            url: `/point/${curMarker.db_id}`,
-            data: {title      : newTitle,
-                  description : newDesc,
-                  image       : newImg,
-                  latitude    : curMarker.position.lat(),
-                  longitude   : curMarker.position.lng(),
-                  map_id      : curMarker.map_id,
-                  user_id     : curMarker.user_id},
-            method: "PUT",
-            success: function(data){
-              console.log(data);
-            },
+            // update the database with new position
+            $.ajax({
+              url: `/point/${curMarker.db_id}`,
+              data: {title      : newTitle,
+                    description : newDesc,
+                    image       : newImg,
+                    latitude    : curMarker.position.lat(),
+                    longitude   : curMarker.position.lng(),
+                    map_id      : curMarker.map_id,
+                    user_id     : curMarker.user_id},
+              method: "PUT",
+              success: function(data){
+                console.log(data);
+              },
 
-            error: function(err){
-              console.log("errorz");
-            }
-          });
+              error: function(err){
+                console.log("errorz");
+              }
+            });
+          }
         }
       });
     }
@@ -164,7 +161,7 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   marker[counter] = new google.maps.Marker({
     position: new google.maps.LatLng(lat, lng),
-    map: map,
+    map: gMap,
     draggable: true,
     icon: icon,
     animation: google.maps.Animation.DROP,
@@ -175,7 +172,7 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
     image: img,
     info_id: counter,
     map_id: curMap_id,
-    user_id: 1,
+    user_id: curUser_id,
     db_id: db_id,
     editing: false
   });
@@ -215,12 +212,12 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
 
   // marker Click
   marker[counter].addListener('click', function() {
-    map.setCenter(this.getPosition());
+    gMap.setCenter(this.getPosition());
     for (var i = 0; i < infoWindow.length; i++) {
       infoWindow[i].close();
     };
 
-    infoWindow[this.info_id].open(map, this);
+    infoWindow[this.info_id].open(gMap, this);
   });
 
   // marker drag
@@ -260,14 +257,14 @@ function addPoint(title, desc, img, lat, lng, db_id, isNew) {
             latitude    : lat,
             longitude   : lng,
             map_id      : curMap_id,
-            user_id     : 1},
+            user_id     : curUser_id},
       method: "POST",
       success: function(data){
         marker[counter].db_id = data[0];
         counter++;
       },
       error: function(err){
-        console.log(err);
+        console.log("Error!");
       }
     });
   } else {
