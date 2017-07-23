@@ -73,6 +73,18 @@ app.get("/contributions/:user_id", (req, res) => {
   });
 })
 
+app.get("/favourites", (req, res) => {
+  knex('users_maps')
+  .where({
+    map_id: req.query.map_id,
+    user_id: req.query.user_id})
+  .update({favourite : req.query.state})
+  .returning('user_id')
+  .then( (user_id)=> {
+    res.send(user_id);
+  })
+})
+
 app.get("/favourites/:user_id", (req, res) => {
   knex('maps')
   .join('users_maps', 'maps.id', '=', 'users_maps.map_id')

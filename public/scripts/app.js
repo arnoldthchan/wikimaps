@@ -3,13 +3,6 @@ function checkFav(userID, mapID){
   console.log('HEART CLICKED');
   console.log('User:', userID);
   console.log('Map:', mapID);
-  knex('maps')
-  .then((results) => {
-    res.json(results)
-  })
-  .catch(function(error) {
-    console.log(error)
-  });
 }
 
 $(document).ready(() => {
@@ -50,7 +43,8 @@ $(document).ready(() => {
 
   $('body').on('click', '.glyphicon-heart', (event) =>{
     event.stopPropagation();
-    let mapID = $(event.target).parent('.listItem').data('mapid')
+    let mapID = $(event.target).parent('.listItem').data('mapid');
+    $(event.target).toggleClass("liked");
     checkFav(userJSON.id, mapID);
   });
 

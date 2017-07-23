@@ -117,7 +117,7 @@ function initMap() {
           $(this).closest(".infoDesc").find(".showInfo").find(".descriptionText").text(newDesc);
 
           var newImg = $(this).closest(".infoDesc").find(".editInfo").find("#imgBox").val();
-          $(this).closest(".infoDesc").find(".showInfo").find(".image").text(newImg);
+          $(this).closest(".infoDesc").find(".showInfo").find(".img-responsive").attr("src",`/images/${newImg}`);
 
             // update the database with new position
             if (curUser_id !== 0) {
@@ -206,6 +206,11 @@ function addPointCommon(title, desc, img, user_id) {
   infoDesc.append(showInfo);
 
   var editButton = $(`<button class="editButton btn btn-success btn-block btn-xs">Edit</button>`);
+
+  if (curUser_id !== user_id) {
+    editButton.css("display", "none");
+  }
+
   infoDesc.append(editButton);
 
   infoWindow[counter] = new google.maps.InfoWindow({
