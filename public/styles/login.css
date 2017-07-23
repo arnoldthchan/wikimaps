@@ -17,8 +17,8 @@
   display: none;
   padding: 0 5% 5%;
   position: fixed;
-  top: 45%;
-  left: 50%;
+  top: 55vh;
+  left: 55vh;
   z-index: 99999;
   width: 50%;
   margin: -30% -25%;

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var map;
   $('a.popup-window').click(function() {
-
+    event.preventDefault();
     //Fade in the Popup
     $('#popup-box').fadeIn(300);
 
