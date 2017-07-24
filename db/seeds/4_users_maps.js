@@ -14,16 +14,22 @@ exports.seed = function(knex, Promise) {
       contribution: 1
     }),
 
-    knex('users_maps').insert({user_id: 3,
+    knex('users_maps').insert({user_id: 1,
       map_id: 2,
       favourite: 1,
-      contribution: 1
+      contribution: 0
     }),
 
-    knex('users_maps').insert({user_id: 4,
+    knex('users_maps').insert({user_id: 1,
+      map_id: 5,
+      favourite: 1,
+      contribution: 0
+    }),
+
+    knex('users_maps').insert({user_id: 2,
       map_id: 3,
       favourite: 1,
-      contribution: 1
+      contribution: 0
     })
   ]);
 };

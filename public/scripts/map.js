@@ -89,7 +89,7 @@ function initMap() {
 
       //add listener for adding markers
       google.maps.event.addListener(gMap, "click", function(event) {
-        addNewPoint("Raccoon", "Trash Panda", "raccoon.jpg", event.latLng.lat(), event.latLng.lng());
+        addNewPoint("Untitled", "An awesome place to be.", "raccoon.jpg", event.latLng.lat(), event.latLng.lng());
       });
 
       if (curMap) {
