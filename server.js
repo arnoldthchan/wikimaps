@@ -17,7 +17,7 @@ const knexLogger  = require("knex-logger");
 const passport    = require("passport");
 const Strategy    = require("passport-local").Strategy;
 const db          = require("./db");
-const bcrypt      = require('bcrypt');
+const bcrypt      = require("bcrypt");
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -41,7 +41,7 @@ app.use("/styles", sass({
   outputStyle: "expanded"
 }));
 app.use(express.static("public"));
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
@@ -54,15 +54,15 @@ function renderHelper(req, res) {
     templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user }
     whereClause = {user_id: req.user.id, favourite: true}
   } else {
-    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: { id:0, name:'Guest', email:"guest@guest.com", password:"none"}}
+    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: { id:0, name:"Guest", email:"guest@guest.com", password:"none"}}
     whereClause = {user_id: 0, favourite: true}
   }
 
 
   // get favourites
-  knex('users_maps')
+  knex("users_maps")
   .where(whereClause)
-  .select('map_id')
+  .select("map_id")
   .then((results) => {
     templateVars["favourites"] = results
     res.render("index", templateVars)
@@ -70,12 +70,12 @@ function renderHelper(req, res) {
 }
 
 app.get("/contributions/:user_id", (req, res) => {
-  knex('maps')
-  .join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+  knex("maps")
+  .join("users_maps", "maps.id", "=", "users_maps.map_id")
   .where({user_id: req.params.user_id})
-  .andWhere('contribution', true)
-  .select('id')
-  .select('title')
+  .andWhere("contribution", true)
+  .select("id")
+  .select("title")
   .then((results) => {
     res.json(results)
   })
@@ -89,16 +89,16 @@ app.put("/favourites", (req, res) => {
   // knex.raw(`INSERT INTO users_maps (user_id, map_id, favourite, contribution) values (${req.query.user_id}, ${req.query.map_id}, ${req.query.state}, false)
   //            ON CONFLICT (users_maps_idx) DO UPDATE SET favourite = ${req.query.state};`)
 
-  knex('users_maps')
+  knex("users_maps")
   .where({
     map_id: req.query.map_id,
     user_id: req.query.user_id
   })
-  .select('favourite')
+  .select("favourite")
   .then((results) =>{
 
     if (results.length === 0) {
-      knex('users_maps')
+      knex("users_maps")
       .insert({
         user_id: req.query.user_id,
         map_id: req.query.map_id,
@@ -113,12 +113,12 @@ app.put("/favourites", (req, res) => {
       })
 
     } else {
-      knex('users_maps')
+      knex("users_maps")
       .where({
         map_id: req.query.map_id,
         user_id: req.query.user_id})
       .update({favourite : req.query.state})
-      .returning('user_id')
+      .returning("user_id")
       .then( (user_id)=> {
         res.json(results)
       })
@@ -131,12 +131,12 @@ app.put("/favourites", (req, res) => {
 })
 
 app.get("/favourites/:user_id", (req, res) => {
-  knex('maps')
-  .join('users_maps', 'maps.id', '=', 'users_maps.map_id')
+  knex("maps")
+  .join("users_maps", "maps.id", "=", "users_maps.map_id")
   .where({user_id: req.params.user_id})
-  .andWhere('favourite', true)
-  .select('id')
-  .select('title')
+  .andWhere("favourite", true)
+  .select("id")
+  .select("title")
   .then((results) => {
     res.json(results)
   })
@@ -146,7 +146,7 @@ app.get("/favourites/:user_id", (req, res) => {
 })
 
 app.get("/users", (req, res) => {
-  knex('users')
+  knex("users")
   .then((results) => {
     res.json(results)
   })
@@ -156,56 +156,50 @@ app.get("/users", (req, res) => {
 })
 
 app.get("/maps", (req, res) => {
-    // //console.log("HERE 1");
-    knex('maps')
+    knex("maps")
       .then((results) => {
-//console.log(" TAK - maps");
-//console.log(results)
         res.json(results)
       })
       .catch(function(error) {
-        //console.log(error)
-    ////console.log("HERE 3");
+        console.log(error)
       })
 });
 
 app.get("/maps/:user_id", (req, res) => {
-    knex('users_maps')
+    knex("users_maps")
       .where({user_id: req.params.user_id})
       .then((results) => {
         res.json(results)
       })
       .catch(function(error) {
-        //console.log(error)
+        console.log(error)
       })
 });
 
 app.get("/map/:map_id", (req, res) => {
-    knex('maps')
+    knex("maps")
       .where({id: req.params.map_id})
       .then((results) => {
         res.json(results)
       })
       .catch(function(error) {
-        //console.log(error)
+        console.log(error)
       })
 });
 
 app.get("/maps/:map_id/points", (req, res) => {
-    knex('points')
+    knex("points")
       .where({map_id: req.params.map_id})
       .then((results) => {
         res.json(results)
       })
       .catch(function(error) {
-        //console.log(error)
+        console.log(error)
       })
 });
 
 app.post("/point", (req, res) => {
-  // //console.log(req.body);
-  // //console.log(req.body.title)
-    knex('points')
+    knex("points")
       .insert (
       {
        title       : req.body.title,
@@ -216,7 +210,7 @@ app.post("/point", (req, res) => {
        map_id      : req.body.map_id,
        user_id     : req.body.user_id
       })
-      .returning('id')
+      .returning("id")
       .then((id) => {
         res.send(id);
       });
@@ -224,7 +218,7 @@ app.post("/point", (req, res) => {
 
 app.post("/users_map", (req, res)=>{
     ////console.log(req.body)
-    knex('users_maps')
+    knex("users_maps")
       .insert(
       {
        user_id      : req.body.user_id,
@@ -239,7 +233,7 @@ app.post("/users_map", (req, res)=>{
 
 app.post("/map", (req, res) => {
   ////console.log(req.body.title)
-    knex('maps')
+    knex("maps")
       .insert (
       {
        creator_id : req.body.creator_id,
@@ -247,7 +241,7 @@ app.post("/map", (req, res) => {
        latitude   : req.body.latitude,
        longitude  : req.body.longitude
       })
-      .returning('id')
+      .returning("id")
       .then((results) => {
         renderHelper(req, res);
       });
@@ -256,7 +250,7 @@ app.post("/map", (req, res) => {
 app.put("/point/:point_id", (req, res) => {
     ////console.log(req.body);
   ////console.log(req.body.title)
-    knex('points')
+    knex("points")
       .where({id: req.params.point_id})
       .update (
       {
@@ -268,7 +262,7 @@ app.put("/point/:point_id", (req, res) => {
        map_id      : req.body.map_id,
        user_id     : req.body.user_id
       })
-      .returning('id')
+      .returning("id")
       .then((id) => {
         res.send(id)
       });
@@ -279,11 +273,6 @@ app.use(require("body-parser").urlencoded({ extended: true}));
 app.use(require("express-session")({ secret: "moist", resave: false, saveUninitialized: false}));
 
 // Configure the local strategy for use by Passport.
-//
-// The local strategy require a `verify` function which receives the credentials
-// (`username` and `password`) submitted by the user.  The function must verify
-// that the password is correct and then invoke `cb` with a user object, which
-// will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
   (username, password, cb) => {
     db.findByUsername(username, function(err, user) {
@@ -304,12 +293,6 @@ passport.use(new Strategy(
     });
   }))
 // Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
 passport.serializeUser((user, cb) => {
   return cb(null, user.id);
 });
@@ -321,8 +304,7 @@ passport.deserializeUser((id, cb) => {
  });
 });
 
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -332,25 +314,25 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login",
-  passport.authenticate("local", { successRedirect: '/',
-    failureRedirect: '/'
+  passport.authenticate("local", { successRedirect: "/",
+    failureRedirect: "/"
   }));
 
-app.post('/register',
+app.post("/register",
   (req, res) => {
     knex("users")
-    .count('name')
-    .where('name', req.body.username)
+    .count("name")
+    .where("name", req.body.username)
     .then((results) => {
       //console.log(results[0].count)
       if(results[0].count == 0){
-        knex('users')
+        knex("users")
         .insert({
           name: req.body.username,
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, 10)
         })
-        .returning('id')
+        .returning("id")
         .then((results) => {
           renderHelper(req, res);
         });
@@ -360,17 +342,16 @@ app.post('/register',
 
   });
 
-app.get('/logout',
+app.get("/logout",
   function(req, res){
     req.logout();
-    res.redirect('/');
+    res.redirect("/");
   });
 
-app.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn('/'),
+app.get("/profile",
+  require("connect-ensure-login").ensureLoggedIn("/"),
   (req, res) => {
-    //console.log(req.user);
-    res.render('profile', { user: req.user });
+    res.render("profile", { user: req.user });
   });
 
 app.listen(PORT, () => {
