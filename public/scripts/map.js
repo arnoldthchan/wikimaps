@@ -214,8 +214,7 @@ function displayNewMap(map_id) {
 // Code common to both addNewPoint and addExistingPoint
 function addPointCommon(title, desc, img, user_id) {
 
-  // Add info window
-
+  // Add info window to point
   var container = $("<div></div>");
   var infoDesc = $(`<div class="infoDesc" data-marker-id=${counter}></div>`);
 
@@ -229,7 +228,7 @@ function addPointCommon(title, desc, img, user_id) {
                       <textarea id="descriptionBox" class="form-control">${desc}</textarea><br/>
                       <label for="imgBox">Image</label>
                       <textarea id="imgBox" class="form-control">${img}</textarea>
-                      <button class="deleteButton btn btn-success btn-block btn-xs">Delete</button><br/>`));
+                      <button class="deleteButton btn btn-danger btn-block btn-xs">Delete</button><br/>`));
 
   infoDesc.append(editInfo);
 
