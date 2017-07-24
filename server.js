@@ -339,7 +339,8 @@ app.post("/register",
         })
         .returning("id")
         .then((results) => {
-          renderHelper(req, res);
+          //renderHelper(req, res);
+          res.redirect(307, '/login')
         });
       }
       renderHelper(req, res);
