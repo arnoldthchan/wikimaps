@@ -16,6 +16,7 @@
   - Check the seeds file to see what gets seeded in the DB
 7. Run the server: `npm run start`
 8. Visit `http://localhost:8080/`
+9. Wiki some maps
 
 # :round_pushpin: Dependencies :round_pushpin:
 
