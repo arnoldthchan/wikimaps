@@ -81,7 +81,13 @@ $(document).ready(() => {
         url: `/favourites?user_id=${userJSON.id}&map_id=${mapID}&state=${isLiked}`,
         method: "PUT",
         success: function() {
-          loadPoints();
+          if (isLiked) {
+            var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+            var fav   = $(`<a data-mapid="${mapID}" class="listItem">`).text(map_names[mapID-1]).append(heart);
+            $("div#sidebar").append(fav);
+          } else {
+            $("div#sidebar").find(`[data-mapid=${mapID}]`).remove()
+          }
         },
         error: function(err) {
           console.log(err);

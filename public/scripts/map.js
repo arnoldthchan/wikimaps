@@ -1,5 +1,6 @@
 var gMap;
 var curMap_id;
+var map_names = [];
 var curUser_id = userJSON.id;
 var counter = 0;
 var marker = [];
@@ -47,6 +48,16 @@ function initMap() {
     success: function(obj){
       curMap = obj[0];
       curMap_id = obj[0]["id"];
+
+      // get map names ordered by their database id
+      for (var i = 0; i < obj.length+1; i++) {
+        for (var j = 0; j < obj.length; j++) {
+          if (obj[j]["id"] === i) {
+            map_names.push(obj[j]['title']);
+            break;
+          }
+        }
+      }
 
       var mapProp = {
           center: new google.maps.LatLng(0,0),
