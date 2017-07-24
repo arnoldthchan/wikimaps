@@ -17,7 +17,7 @@ const knexLogger  = require("knex-logger");
 const passport    = require("passport");
 const Strategy    = require("passport-local").Strategy;
 const db          = require("./db");
-const bcrypt      = require("bcrypt");
+const bcrypt      = require("bcrypt-nodejs");
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -293,15 +293,14 @@ passport.use(new Strategy(
       if (!user) {
         return cb(null, false, {message: "User does not exist."});
       }
-      bcrypt.compare(password, user.password)
-      .then(function(res) {
+      bcrypt.compare(password, user.password, function(err, res) {
         //res = true if password matches hash
         if(res){
           return cb(null, user);
         } else{
           return cb(null, false, {message: err});
         }
-      });
+      })
     });
   }))
 // Configure Passport authenticated session persistence.
