@@ -5,6 +5,12 @@
 * [Arnold Chan](https://github.com/arnoldthchan)
 * [Tak Ng](https://github.com/takng)
 
+# Screenshots
+!["Main page"](https://github.com/arnoldthchan/wikimaps/blob/master/Screenshots/Main-Page.png?raw=true)
+!["Edit a marker"](https://github.com/arnoldthchan/wikimaps/blob/master/Screenshots/Racoon-Marker.png?raw=true)
+!["Lists of favs and creations"](https://github.com/arnoldthchan/wikimaps/blob/master/Screenshots/Edit-Markers.png?raw=true)
+
+
 # :round_pushpin: Getting Started :round_pushpin: 
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
