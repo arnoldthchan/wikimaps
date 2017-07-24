@@ -75,10 +75,6 @@ i.glyphicon-heart {
   width: 400px;
 }
 
-.dropdown {
-  margin-left: 30px;
-}
-
 @media (max-width: 500px) {
   width: 25%;
 }

@@ -3,13 +3,11 @@
 <html lang="en">
   <head>
     <title>Wikimap - Wiki your Map</title>
-
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="styles/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
-
     <script>
       var userJSON = <%- JSON.stringify(user) %>;
       var favouritesJSON = <%- JSON.stringify(favourites) %>;
@@ -20,59 +18,58 @@
     <script type="text/javascript" src="/scripts/map.js"></script>
     <script type="text/javascript" src="/scripts/login-box.js"></script>
   </head>
-
   <body>
+    <!-- Static navigation bar   -->
     <nav class="navbar navbar-default">
         <a class="navbar-brand">Wikimaps</a>
           <ul class="nav navbar-nav">
+          <% if (user.id !== 0) { %>
             <li>
-              <% if (user.id !== 0) { %>
                 <a href="#" id="favs">Favourites</a>
             </li>
-
-          <form id="new-point" class="navbar-form navbar-right" role="form">
-              <div class="input-group">
-                <input type="text" class="form-control new-point" placeholder="New Map">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Create</button>
-                </span>
-              </div>
-
-         </form>
+          <!-- Create list form -->
+                <form id="new-point" class="navbar-form navbar-right" role="form">
+                    <div class="input-group">
+                      <input type="text" class="form-control new-point" placeholder="New Map">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Create</button>
+                      </span>
+                    </div>
+               </form>
               <% } %>
+            <!-- Dropdown of all lists -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lists
               <span class="caret"></span></a>
               <ul class="dropdown-menu list" role="menu"></ul>
-
             </li>
           </ul>
-
           <% if (user.id === 0) { %>
-            <form id="login" action="/login" method="post" class="navbar-form navbar-right" role="form">
-              <div class="form-group">
-                  <input id="username" type="text" class="form-control" name="username" placeholder="Username">
-              </div>
-
-              <div class="form-group">
-                  <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-              </div>
-
-              <button type="submit" class="btn btn-default">Login</button>
-              <a href="#popup-box" class="popup-window btn btn-primary" value="Register">Register</a>
-            </form>
-
-          <% } else { %>
-            <div class="navbar-form navbar-right form-inline">
-              <form class="form-inline" id="logout" action="/logout" method="GET">
-                <span>Hello,
-                  <a href="#popup-box" class="popup-window"><%= user.name%></a>
-                </span>
-                <button type="submit" class="btn btn-default">Logout</button>
-              </form>
+          <!-- Login + Register buttons when no user.id -->
+          <form id="login" action="/login" method="post" class="navbar-form navbar-right" role="form">
+            <div class="form-group">
+                <input id="username" type="text" class="form-control" name="username" placeholder="Username">
             </div>
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-default">Login</button>
+            <a href="#popup-box" class="popup-window btn btn-primary" value="Register">Register</a>
+          </form>
+          <% } else { %>
+          <!-- Shows username and profile link when logged in -->
+          <div class="navbar-form navbar-right form-inline">
+            <form class="form-inline" id="logout" action="/logout" method="GET">
+              <span>Hello,
+                <a href="#popup-box" class="popup-window"><%= user.name%></a>
+              </span>
+              <button type="submit" class="btn btn-default">Logout</button>
+            </form>
+          </div>
           <% } %>
     </nav>
+    <!-- Popup box will load as user profile -->
     <% if (user.id !== 0) { %>
       <div id="popup-box" class="popup">
         <a href="#" class="close">X</a>
@@ -90,6 +87,7 @@
         </ul>
       </div>
     <% } else { %>
+    <!-- Popup box will load registration form -->
       <div id="popup-box" class="popup">
         <a href="#" class="close">X</a>
         <form id="register" action="/register" method="post">
@@ -97,12 +95,10 @@
             <label>Username:</label>
             <input type="username" class="form-control" name="username">
           </div>
-
           <div class="form-group">
             <label>Email Address:</label>
             <input type="email" class="form-control" name="email">
           </div>
-
           <div class="form-group">
             <label>Password:</label>
             <input type="password" class="form-control" name="password">
@@ -111,14 +107,13 @@
         </form>
       </div>
     <% } %>
-
-      <div id="sidebar" class="sidebar"></div>
-
-      <div id="page-content-wrapper">
-        <div id="googleMap">
-          <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPIKey %>&callback=initApp"></script>
-        </div>
+    <!-- Empty favourites sidebar -->
+    <div id="sidebar" class="sidebar"></div>
+    <!-- GoogleMaps box -->
+    <div id="page-content-wrapper">
+      <div id="googleMap">
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsAPIKey %>&callback=initApp"></script>
       </div>
-
+    </div>
   </body>
 </html>
