@@ -1,38 +1,38 @@
 $(document).ready(() => {
 
   var map;
-
-  $.ajax({
-    method: "GET",
-    url: "/maps"
-  }).done((maps) => {
-    for(map of maps) {
-
-      if (userJSON.id !== 0) {
-        var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
-
-        for (var i = 0; i < favouritesJSON.length; i++) {
-          if (favouritesJSON[i]["map_id"] === map.id) {
-            heart.addClass("liked");
+  function loadPoints(){
+    $.ajax({
+      method: "GET",
+      url: "/maps"
+    }).done((maps) => {
+      $("ul.list").empty();
+      for(map of maps) {
+        if (userJSON.id !== 0) {
+          var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+          for (var i = 0; i < favouritesJSON.length; i++) {
+            if (favouritesJSON[i]["map_id"] === map.id) {
+              heart.addClass("liked");
+            }
           }
         }
+        var item  = $(`<li data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
+        $("ul.list").append(item);
       }
+    });
 
-      var item  = $(`<li data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
-      $("ul.list").append(item);
-    }
-  });
-
-  $.ajax({
-    method: "GET",
-    url: `favourites/${userJSON.id}`,
-  }).done((maps) => {
-    for(map of maps) {
-      var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
-      var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
-      $("div#sidebar").append(fav);
-    }
-  });
+    $.ajax({
+      method: "GET",
+      url: `favourites/${userJSON.id}`,
+    }).done((maps) => {
+      $("div#sidebar").empty();
+      for(map of maps) {
+        var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+        var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
+        $("div#sidebar").append(fav);
+      }
+    });
+  }
 
   $("body").on("click", ".listItem", (event) => {
     let mapid= $(event.target).data("mapid");
@@ -58,6 +58,7 @@ $(document).ready(() => {
         },
         success: function() {
           console.log(`${input} created!`);
+          loadPoints();
         },
         error: function(err) {
           console.log(err);
@@ -80,14 +81,14 @@ $(document).ready(() => {
         method: "PUT",
         success: function() {
           console.log("OKey-dokey");
+          loadPoints();
         },
-
         error: function(err) {
           console.log(err);
         }
       })
     }
   });
-
+  loadPoints();
 });
 
