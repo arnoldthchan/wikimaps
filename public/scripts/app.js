@@ -16,6 +16,12 @@ $(document).ready(() => {
     for(map of maps) {
       var heart = $('<i class="float-right glyphicon glyphicon-heart">');
 
+      for (var i = 0; i < favouritesJSON.length; i++) {
+        if (favouritesJSON[i]["map_id"] === map.id) {
+          heart.addClass("liked");
+        }
+      }
+
       var item  = $(`<li data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
       $('ul.list').append(item);
     }

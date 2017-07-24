@@ -47,15 +47,26 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use("/api/users", usersRoutes(knex));
 
 function renderHelper(req, res) {
-  let templateVars;
+  let templateVars = {}
+  let whereClause = ""
 
   if (req.user) {
-    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user };
+    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: req.user }
+    whereClause = {user_id: req.user.id, favourite: true}
   } else {
-    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: { id:0, name:'Guest', email:"guest@guest.com", password:"none"}};
+    templateVars = { googleMapsAPIKey: GOOGLEMAPS_APIKEY, user: { id:0, name:'Guest', email:"guest@guest.com", password:"none"}}
+    whereClause = {user_id: 0, favourite: true}
   }
 
-  res.render("index", templateVars);
+
+  // get favourites
+  knex('users_maps')
+  .where(whereClause)
+  .select('map_id')
+  .then((results) => {
+    templateVars["favourites"] = results
+    res.render("index", templateVars)
+  })
 }
 
 app.get("/contributions/:user_id", (req, res) => {
