@@ -30,7 +30,6 @@ app.use(morgan("dev"));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -46,6 +45,7 @@ app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); /
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+// Loads the page and initializes keys and data
 function renderHelper(req, res) {
   let templateVars = {}
   let whereClause = ""
@@ -58,7 +58,6 @@ function renderHelper(req, res) {
     whereClause = {user_id: 0, favourite: true}
   }
 
-
   // get favourites
   knex("users_maps")
   .where(whereClause)
@@ -69,6 +68,7 @@ function renderHelper(req, res) {
   })
 }
 
+// Gets a contribution by user
 app.get("/contributions/:user_id", (req, res) => {
   knex("maps")
   .join("users_maps", "maps.id", "=", "users_maps.map_id")
@@ -84,8 +84,8 @@ app.get("/contributions/:user_id", (req, res) => {
   });
 })
 
+// Toggles a favourite in the database
 app.put("/favourites", (req, res) => {
-
   knex("users_maps")
   .where({
     map_id: req.query.map_id,
@@ -127,6 +127,7 @@ app.put("/favourites", (req, res) => {
   })
 })
 
+// Gets all favourited maps by user
 app.get("/favourites/:user_id", (req, res) => {
   knex("maps")
   .join("users_maps", "maps.id", "=", "users_maps.map_id")
@@ -142,16 +143,18 @@ app.get("/favourites/:user_id", (req, res) => {
   });
 })
 
+// Gets all users
 app.get("/users", (req, res) => {
   knex("users")
   .then((results) => {
     res.json(results)
   })
   .catch((error) => {
-    console.log("Error users");
+    console.log(error);
   })
 })
 
+// Gets all maps
 app.get("/maps", (req, res) => {
     knex("maps")
       .then((results) => {
@@ -162,6 +165,7 @@ app.get("/maps", (req, res) => {
       })
 });
 
+// Gets all maps that a user has a relationship with (i.e. favourited, contributed)
 app.get("/maps/:user_id", (req, res) => {
     knex("users_maps")
       .where({user_id: req.params.user_id})
@@ -173,6 +177,7 @@ app.get("/maps/:user_id", (req, res) => {
       })
 });
 
+// Get a map by its ID
 app.get("/map/:map_id", (req, res) => {
     knex("maps")
       .where({id: req.params.map_id})
@@ -184,6 +189,7 @@ app.get("/map/:map_id", (req, res) => {
       })
 });
 
+// Get all points associated with a map
 app.get("/maps/:map_id/points", (req, res) => {
     knex("points")
       .where({map_id: req.params.map_id})
@@ -195,6 +201,7 @@ app.get("/maps/:map_id/points", (req, res) => {
       })
 });
 
+// Add a new point
 app.post("/point", (req, res) => {
     knex("points")
       .insert (
@@ -213,17 +220,17 @@ app.post("/point", (req, res) => {
       });
 })
 
+// Delete a point
 app.delete("/point/:id", (req, res) => {
     knex("points")
       .where({ id: req.params.id })
       .del()
       .then(() => {
-        console.log("Deleted Point")
       })
 })
 
+// Adds a new relationship between a user and map
 app.post("/users_map", (req, res)=>{
-    ////console.log(req.body)
     knex("users_maps")
       .insert(
       {
@@ -237,8 +244,8 @@ app.post("/users_map", (req, res)=>{
       });
   })
 
+// Adds a new map tp database
 app.post("/map", (req, res) => {
-  ////console.log(req.body.title)
     knex("maps")
       .insert (
       {
@@ -253,9 +260,8 @@ app.post("/map", (req, res) => {
       });
 });
 
+// Upserts a point
 app.put("/point/:point_id", (req, res) => {
-    ////console.log(req.body);
-  ////console.log(req.body.title)
     knex("points")
       .where({id: req.params.point_id})
       .update (
@@ -319,11 +325,13 @@ app.get("/", (req, res) => {
   renderHelper(req, res);
 });
 
+// Login
 app.post("/login",
   passport.authenticate("local", { successRedirect: "/",
     failureRedirect: "/"
   }));
 
+// Register
 app.post("/register",
   (req, res) => {
     knex("users")
@@ -339,20 +347,22 @@ app.post("/register",
         })
         .returning("id")
         .then((results) => {
+          // Attempt to login
           res.redirect(307, '/login')
         });
       }
-      renderHelper(req, res);
     });
 
   });
 
+// Logout
 app.get("/logout",
   function(req, res){
     req.logout();
     res.redirect("/");
   });
 
+// View profile
 app.get("/profile",
   require("connect-ensure-login").ensureLoggedIn("/"),
   (req, res) => {
