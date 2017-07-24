@@ -142,6 +142,9 @@ function initMap() {
 
         // update text in show state
         if (!curMarker.editing) {
+
+          $(this).text("Edit");
+
           var newTitle = $(this).closest(".infoDesc").find(".editInfo").find("#titleBox").val();
           $(this).closest(".infoDesc").find(".showInfo").find(".titleText").text(newTitle);
 
@@ -164,7 +167,6 @@ function initMap() {
                       user_id     : curMarker.user_id},
                 method: "PUT",
                 success: function(data){
-                  console.log(data);
                 },
 
                 error: function(err){
@@ -173,6 +175,8 @@ function initMap() {
                 }
               });
             }
+          } else {
+            $(this).text("Save");
           }
         }
       });
