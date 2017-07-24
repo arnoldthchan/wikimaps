@@ -6,15 +6,15 @@ var marker = [];
 var infoWindow = [];
 var users_list = [];
 
-var iconBase = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/';
+var iconBase = "http://www.google.com/intl/en_us/mapfiles/ms/micons/";
 var markerColours = [
-  'red.png',
-  'orange.png',
-  'yellow.png',
-  'green.png',
-  'blue.png',
-  'purple.png',
-  'pink.png'
+  "red.png",
+  "orange.png",
+  "yellow.png",
+  "green.png",
+  "blue.png",
+  "purple.png",
+  "pink.png"
 ];
 
 function randomInt(min, max) {
@@ -30,7 +30,7 @@ function initApp() {
     success: function(obj){
       users_list.push("Guest");
       for (var i = 0; i < obj.length; i++) {
-        users_list.push(obj[i]['name']);
+        users_list.push(obj[i]["name"]);
       }
       initMap();
     }
@@ -46,7 +46,7 @@ function initMap() {
     method: "GET",
     success: function(obj){
       curMap = obj[0];
-      curMap_id = obj[0]['id'];
+      curMap_id = obj[0]["id"];
 
       var mapProp = {
           center: new google.maps.LatLng(0,0),
@@ -80,15 +80,15 @@ function initMap() {
       //   default: null,
       //   hide: [
       //   {
-      //     featureType: 'all',
-      //     stylers: [{visibility: 'off'}]
+      //     featureType: "all",
+      //     stylers: [{visibility: "off"}]
       //   }]
       // };
 
-      // gMap.setOptions({styles: styles['default']})
+      // gMap.setOptions({styles: styles["default"]})
 
       //add listener for adding markers
-      google.maps.event.addListener(gMap, 'click', function(event) {
+      google.maps.event.addListener(gMap, "click", function(event) {
         addNewPoint("Raccoon", "Trash Panda", "raccoon.jpg", event.latLng.lat(), event.latLng.lng());
       });
 
@@ -97,7 +97,7 @@ function initMap() {
       }
 
       // Add listeners to all edit buttons
-      $('#googleMap').on('click', '.editButton', function() {
+      $("#googleMap").on("click", ".editButton", function() {
 
         var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
 
@@ -167,7 +167,7 @@ function displayNewMap(map_id) {
       curMap = obj[0];
 
       if (curMap) {
-        gMap.setCenter(new google.maps.LatLng(curMap['latitude'],curMap['longitude']));
+        gMap.setCenter(new google.maps.LatLng(curMap["latitude"],curMap["longitude"]));
         gMap.setZoom(12);
         getPointsFromDB(curMap["id"]);
       }
@@ -181,11 +181,11 @@ function addPointCommon(title, desc, img, user_id) {
   // Add info window
 
   var container = $("<div></div>");
-  var infoDesc = $(`<div class='infoDesc' data-marker-id=${counter}></div>`);
+  var infoDesc = $(`<div class="infoDesc" data-marker-id=${counter}></div>`);
 
   container.append(infoDesc);
 
-  var editInfo = $("<form class='editInfo'></form>");
+  var editInfo = $(`<form class="editInfo"></form>`);
 
   editInfo.append($(`<label for="titleBox">Title</label>
                       <textarea id="titleBox" class="form-control">${title}</textarea><br/>
@@ -196,7 +196,7 @@ function addPointCommon(title, desc, img, user_id) {
 
   infoDesc.append(editInfo);
 
-  var showInfo = $("<div class='showInfo'</div>");
+  var showInfo = $(`<div class="showInfo"</div>`);
 
   showInfo.append($(`<h3 class="titleText">${title}</h3>
                      <p class="descriptionText">${desc}</p>
@@ -218,7 +218,7 @@ function addPointCommon(title, desc, img, user_id) {
   });
 
   // marker Click
-  marker[counter].addListener('click', function() {
+  marker[counter].addListener("click", function() {
     gMap.setCenter(this.getPosition());
     for (var i = 0; i < infoWindow.length; i++) {
       infoWindow[i].close();
@@ -231,7 +231,7 @@ function addPointCommon(title, desc, img, user_id) {
   if (user_id !== curUser_id) {
     marker[counter].setDraggable(false);
   } else {
-    marker[counter].addListener('dragend', function() {
+    marker[counter].addListener("dragend", function() {
 
       // update the database with new position
       if (curUser_id !== 0) {

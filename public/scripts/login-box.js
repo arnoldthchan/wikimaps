@@ -1,20 +1,20 @@
 $(document).ready(function() {
   var map;
-  $('a.popup-window').click(function() {
+  $("a.popup-window").click(function() {
     event.preventDefault();
     //Fade in the Popup
-    $('#popup-box').fadeIn(300);
+    $("#popup-box").fadeIn(300);
 
     // Add the mask to body
-    $('body').append('<div id="mask"></div>');
-    $('#mask').fadeIn(300);
+    $("body").append(`<div id="mask"></div>`);
+    $("#mask").fadeIn(300);
 
   });
 
   // When clicking on the button close or the mask layer the popup closed
-  $('body').on('click', 'a.close, #mask', function() {
-    $('#mask , #popup-box').fadeOut(300 , function() {
-      $('#mask').remove();
+  $("body").on("click", "a.close, #mask", function() {
+    $("#mask , #popup-box").fadeOut(300 , function() {
+      $("#mask").remove();
     });
   });
 
@@ -30,8 +30,8 @@ $(document).ready(function() {
   }).done((maps) => {
     for(map of maps) {
       var fav = $(`<li data-mapid="${map.id}" class="list-group-item">${map.title}</li>`);
-      var heart = $('<i class="glyphicon glyphicon-heart">');
-      $('ul.favs').append(heart, fav);
+      var heart = $(`<i class="glyphicon glyphicon-heart">`);
+      $("ul.favs").append(heart, fav);
     }
   });
   $.ajax({
@@ -40,7 +40,7 @@ $(document).ready(function() {
   }).done((maps) => {
     for(map of maps) {
       var contri = $(`<li data-mapid="${map.id}" class="list-group-item">${map.title}</li>`);
-      $('ul.contributions').append(contri);
+      $("ul.contributions").append(contri);
     }
   });
 });
