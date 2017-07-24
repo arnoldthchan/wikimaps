@@ -1,5 +1,6 @@
 # :round_pushpin: Wikimaps :round_pushpin:
 
+## Written by:
 * Jonathan Lam
 * Arnold Chan
 * Tak Ng
