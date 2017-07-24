@@ -27,8 +27,8 @@ $(document).ready(() => {
     }).done((maps) => {
       $("div#sidebar").empty();
       for(map of maps) {
-        var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
-        var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title).append(heart);
+        //var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+        var fav   = $(`<a data-mapid="${map.id}" class="listItem">`).text(map.title)//.append(heart);
         $("div#sidebar").append(fav);
       }
     });
@@ -82,8 +82,8 @@ $(document).ready(() => {
         method: "PUT",
         success: function() {
           if (isLiked) {
-            var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
-            var fav   = $(`<a data-mapid="${mapID}" class="listItem">`).text(map_names[mapID-1]).append(heart);
+            //var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+            var fav   = $(`<a data-mapid="${mapID}" class="listItem">`).text(map_names[mapID-1])//.append(heart);
             $("div#sidebar").append(fav);
           } else {
             $("div#sidebar").find(`[data-mapid=${mapID}]`).remove();

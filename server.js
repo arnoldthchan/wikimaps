@@ -330,7 +330,6 @@ app.post("/register",
     .count("name")
     .where("name", req.body.username)
     .then((results) => {
-      //console.log(results[0].count)
       if(results[0].count == 0){
         knex("users")
         .insert({

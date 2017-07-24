@@ -2,14 +2,14 @@
 
 exports.seed = function(knex, Promise){
   return Promise.all([
-    knex('maps').insert({creator_id: 2,
-      title: 'Oshawa',
-      latitude: 43.8971,
-      longitude: -78.8658}),
     knex('maps').insert({creator_id: 1,
       title: 'Toronto',
       latitude: 43.6532,
       longitude: -79.3832}),
+    knex('maps').insert({creator_id: 2,
+      title: 'Oshawa',
+      latitude: 43.8971,
+      longitude: -78.8658}),
     knex('maps').insert({creator_id: 3,
       title: 'Mississauga',
       latitude: 43.5890,
