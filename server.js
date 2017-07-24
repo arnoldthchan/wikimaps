@@ -351,7 +351,6 @@ app.post("/register",
         })
       }
     })
-
   })
 
 // Logout

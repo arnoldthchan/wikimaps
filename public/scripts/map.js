@@ -66,7 +66,6 @@ function initMap() {
             mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
           },
           disableDefaultUI: true,
-          //mapTypeControl: true,
           scaleControl: true,
           zoomControl: true,
           zoomControlOptions: {
@@ -85,18 +84,6 @@ function initMap() {
 
       // init map
       gMap = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-      // Hide POI
-      // var styles = {
-      //   default: null,
-      //   hide: [
-      //   {
-      //     featureType: "all",
-      //     stylers: [{visibility: "off"}]
-      //   }]
-      // };
-
-      // gMap.setOptions({styles: styles["default"]})
 
       //add listener for adding markers
       google.maps.event.addListener(gMap, "click", function(event) {
@@ -170,8 +157,7 @@ function initMap() {
                 },
 
                 error: function(err){
-                  debugger;
-                  console.log("errorz");
+                  console.log(err);
                 }
               });
             }
