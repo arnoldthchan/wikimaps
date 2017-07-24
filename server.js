@@ -216,6 +216,15 @@ app.post("/point", (req, res) => {
       });
 })
 
+app.delete("/point/:id", (req, res) => {
+    knex("points")
+      .where({ id: req.params.id })
+      .del()
+      .then(() => {
+        console.log("Deleted Point")
+      })
+})
+
 app.post("/users_map", (req, res)=>{
     ////console.log(req.body)
     knex("users_maps")

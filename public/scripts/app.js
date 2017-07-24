@@ -7,11 +7,14 @@ $(document).ready(() => {
     url: "/maps"
   }).done((maps) => {
     for(map of maps) {
-      var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
 
-      for (var i = 0; i < favouritesJSON.length; i++) {
-        if (favouritesJSON[i]["map_id"] === map.id) {
-          heart.addClass("liked");
+      if (userJSON.id !== 0) {
+        var heart = $(`<i class="float-right glyphicon glyphicon-heart">`);
+
+        for (var i = 0; i < favouritesJSON.length; i++) {
+          if (favouritesJSON[i]["map_id"] === map.id) {
+            heart.addClass("liked");
+          }
         }
       }
 

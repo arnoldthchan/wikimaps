@@ -96,6 +96,29 @@ function initMap() {
         getPointsFromDB(curMap["id"]);
       }
 
+      // Add listeners to all delte buttons
+      $("#googleMap").on("click", ".deleteButton", function() {
+        var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
+        var curInfoWindow = infoWindow[$(this).closest(".infoDesc").data("marker-id")];
+
+        debugger;
+
+        //delete from database
+        if (curUser_id !== 0) {
+          $.ajax({
+            url: `/point/${curMarker.db_id}`,
+            method: "DELETE",
+            success: function() {console.log("Deleted Point.")},
+            error: function() {console.log("Error deleting point.")}
+          });
+
+          if (curUser_id === curMarker.user_id) {
+            curMarker.setMap(null);
+            curInfoWindow.setMap(null);
+          }
+        }
+      });
+
       // Add listeners to all edit buttons
       $("#googleMap").on("click", ".editButton", function() {
 
@@ -192,7 +215,8 @@ function addPointCommon(title, desc, img, user_id) {
                       <label for="descriptionBox">Description</label>
                       <textarea id="descriptionBox" class="form-control">${desc}</textarea><br/>
                       <label for="imgBox">Image</label>
-                      <textarea id="imgBox" class="form-control">${img}</textarea>`));
+                      <textarea id="imgBox" class="form-control">${img}</textarea>
+                      <button class="deleteButton btn btn-success btn-block btn-xs">Delete</button><br/>`));
 
   infoDesc.append(editInfo);
 
@@ -206,6 +230,7 @@ function addPointCommon(title, desc, img, user_id) {
   infoDesc.append(showInfo);
 
   var editButton = $(`<button class="editButton btn btn-success btn-block btn-xs">Edit</button>`);
+
 
   if (curUser_id !== user_id) {
     editButton.css("display", "none");
