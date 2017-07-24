@@ -28,7 +28,6 @@
 - Express-session 1.15.4 or above
 - Knex 0.11.10 or above
 - Knex-logger 0.1.0 or above
-- Mon 0.0.8
 - Morgan 1.7.0 or above
 - Node 5.10.x or above
 - NPM 3.8.x or above
