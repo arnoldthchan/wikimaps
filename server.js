@@ -364,7 +364,7 @@ app.post("/register",
         .insert({
           name: req.body.username,
           email: req.body.email,
-          password: bcrypt.hashSync(req.body.password, 10)
+          password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
         })
         .returning("id")
         .then((results) => {
