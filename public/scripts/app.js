@@ -86,7 +86,7 @@ $(document).ready(() => {
             var fav   = $(`<a data-mapid="${mapID}" class="listItem">`).text(map_names[mapID-1]).append(heart);
             $("div#sidebar").append(fav);
           } else {
-            $("div#sidebar").find(`[data-mapid=${mapID}]`).remove()
+            $("div#sidebar").find(`[data-mapid=${mapID}]`).remove();
           }
         },
         error: function(err) {
