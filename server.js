@@ -1,49 +1,49 @@
-"use strict";
+"use strict"
 
-require("dotenv").config();
+require("dotenv").config()
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const GOOGLEMAPS_APIKEY = process.env.GOOGLEMAPS_APIKEY;
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
+const PORT        = process.env.PORT || 8080
+const ENV         = process.env.ENV || "development"
+const GOOGLEMAPS_APIKEY = process.env.GOOGLEMAPS_APIKEY
+const express     = require("express")
+const bodyParser  = require("body-parser")
+const sass        = require("node-sass-middleware")
+const app         = express()
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require("morgan");
-const knexLogger  = require("knex-logger");
-const passport    = require("passport");
-const Strategy    = require("passport-local").Strategy;
-const db          = require("./db");
-const bcrypt      = require("bcrypt-nodejs");
+const knexConfig  = require("./knexfile")
+const knex        = require("knex")(knexConfig[ENV])
+const morgan      = require("morgan")
+const knexLogger  = require("knex-logger")
+const passport    = require("passport")
+const Strategy    = require("passport-local").Strategy
+const db          = require("./db")
+const bcrypt      = require("bcrypt-nodejs")
 
 // Seperated Routes for each Resource
-const usersRoutes = require("./routes/users");
+const usersRoutes = require("./routes/users")
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // "dev" = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-app.use(morgan("dev"));
+app.use(morgan("dev"))
 
 // Log knex SQL queries to STDOUT as well
-app.use(knexLogger(knex));
+app.use(knexLogger(knex))
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true}));
+app.set("views", __dirname + "/views")
+app.set("view engine", "ejs")
+app.use(bodyParser.urlencoded({ extended: true}))
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
   debug: true,
   outputStyle: "expanded"
-}));
-app.use(express.static("public"));
-app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
+}))
+app.use(express.static("public"))
+app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")) // redirect bootstrap JS
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+app.use("/api/users", usersRoutes(knex))
 
 // Loads the page and initializes keys and data
 function renderHelper(req, res) {
@@ -81,7 +81,7 @@ app.get("/contributions/:user_id", (req, res) => {
   })
   .catch(function(error) {
     console.log(error)
-  });
+  })
 })
 
 // Toggles a favourite in the database
@@ -140,7 +140,7 @@ app.get("/favourites/:user_id", (req, res) => {
   })
   .catch(function(error) {
     console.log(error)
-  });
+  })
 })
 
 // Gets all users
@@ -150,7 +150,7 @@ app.get("/users", (req, res) => {
     res.json(results)
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error)
   })
 })
 
@@ -163,7 +163,7 @@ app.get("/maps", (req, res) => {
       .catch(function(error) {
         console.log(error)
       })
-});
+})
 
 // Gets all maps that a user has a relationship with (i.e. favourited, contributed)
 app.get("/maps/:user_id", (req, res) => {
@@ -175,7 +175,7 @@ app.get("/maps/:user_id", (req, res) => {
       .catch(function(error) {
         console.log(error)
       })
-});
+})
 
 // Get a map by its ID
 app.get("/map/:map_id", (req, res) => {
@@ -187,7 +187,7 @@ app.get("/map/:map_id", (req, res) => {
       .catch(function(error) {
         console.log(error)
       })
-});
+})
 
 // Get all points associated with a map
 app.get("/maps/:map_id/points", (req, res) => {
@@ -199,7 +199,7 @@ app.get("/maps/:map_id/points", (req, res) => {
       .catch(function(error) {
         console.log(error)
       })
-});
+})
 
 // Add a new point
 app.post("/point", (req, res) => {
@@ -216,8 +216,8 @@ app.post("/point", (req, res) => {
       })
       .returning("id")
       .then((id) => {
-        res.send(id);
-      });
+        res.send(id)
+      })
 })
 
 // Delete a point
@@ -240,8 +240,8 @@ app.post("/users_map", (req, res)=>{
        contribution : req.body.contribution
       })
       .then((results) => {
-        renderHelper(req, res);
-      });
+        renderHelper(req, res)
+      })
   })
 
 // Adds a new map tp database
@@ -256,9 +256,9 @@ app.post("/map", (req, res) => {
       })
       .returning("id")
       .then((results) => {
-        renderHelper(req, res);
-      });
-});
+        renderHelper(req, res)
+      })
+})
 
 // Upserts a point
 app.put("/point/:point_id", (req, res) => {
@@ -277,58 +277,58 @@ app.put("/point/:point_id", (req, res) => {
       .returning("id")
       .then((id) => {
         res.send(id)
-      });
+      })
 })
 
-app.use(require("cookie-parser")());
-app.use(require("body-parser").urlencoded({ extended: true}));
-app.use(require("express-session")({ secret: "moist", resave: false, saveUninitialized: false}));
+app.use(require("cookie-parser")())
+app.use(require("body-parser").urlencoded({ extended: true}))
+app.use(require("express-session")({ secret: "moist", resave: false, saveUninitialized: false}))
 
 // Configure the local strategy for use by Passport.
 passport.use(new Strategy(
   (username, password, cb) => {
     db.findByUsername(username, function(err, user) {
       if (err) {
-        return cb(err);}
+        return cb(err)}
       if (!user) {
-        return cb(null, false, {message: "User does not exist."});
+        return cb(null, false, {message: "User does not exist."})
       }
       bcrypt.compare(password, user.password, function(err, res) {
         //res = true if password matches hash
         if(res){
-          return cb(null, user);
+          return cb(null, user)
         } else{
-          return cb(null, false, {message: err});
+          return cb(null, false, {message: err})
         }
       })
-    });
+    })
   }))
 // Configure Passport authenticated session persistence.
 passport.serializeUser((user, cb) => {
-  return cb(null, user.id);
-});
+  return cb(null, user.id)
+})
 
 passport.deserializeUser((id, cb) => {
   db.findById(id, (err, user) => {
-    if (err) { return cb(err);}
-    return cb(null, user);
- });
-});
+    if (err) { return cb(err)}
+    return cb(null, user)
+ })
+})
 
 // Initialize Passport and restore authentication state, if any, from the session.
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Home page
 app.get("/", (req, res) => {
-  renderHelper(req, res);
-});
+  renderHelper(req, res)
+})
 
 // Login
 app.post("/login",
   passport.authenticate("local", { successRedirect: "/",
     failureRedirect: "/"
-  }));
+  }))
 
 // Register
 app.post("/register",
@@ -348,26 +348,26 @@ app.post("/register",
         .then((results) => {
           // Attempt to login
           res.redirect(307, '/login')
-        });
+        })
       }
-    });
+    })
 
-  });
+  })
 
 // Logout
 app.get("/logout",
   function(req, res){
-    req.logout();
-    res.redirect("/");
-  });
+    req.logout()
+    res.redirect("/")
+  })
 
 // View profile
 app.get("/profile",
   require("connect-ensure-login").ensureLoggedIn("/"),
   (req, res) => {
-    res.render("profile", { user: req.user });
-  });
+    res.render("profile", { user: req.user })
+  })
 
 app.listen(PORT, () => {
-  console.log("Wikimaps listening on port " + PORT);
-});
+  console.log("Wikimaps listening on port " + PORT)
+})
