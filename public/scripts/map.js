@@ -101,8 +101,6 @@ function initMap() {
         var curMarker = marker[$(this).closest(".infoDesc").data("marker-id")];
         var curInfoWindow = infoWindow[$(this).closest(".infoDesc").data("marker-id")];
 
-        debugger;
-
         //delete from database
         if (curUser_id !== 0) {
           $.ajax({

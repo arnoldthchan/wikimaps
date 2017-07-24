@@ -45,6 +45,7 @@ $(document).ready(() => {
 
   $("nav").on("click", "#new-point", (event) =>{
     let input = $(".new-point").val()
+    let coords = gMap.getCenter()
     console.log(input);
     if (input){
       $.ajax({
@@ -53,8 +54,8 @@ $(document).ready(() => {
         data:{
          creator_id : userJSON.id,
          title      : input,
-         latitude   : 43.653200,
-         longitude  : -79.383200
+         latitude   : coords.lat(),
+         longitude  : coords.lng()
         },
         success: function() {
           console.log(`${input} created!`);
@@ -79,7 +80,6 @@ $(document).ready(() => {
         url: `/favourites?user_id=${userJSON.id}&map_id=${mapID}&state=${isLiked}`,
         method: "PUT",
         success: function() {
-          console.log("OKey-dokey");
         },
 
         error: function(err) {
