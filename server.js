@@ -76,16 +76,46 @@ app.get("/contributions/:user_id", (req, res) => {
 app.put("/favourites", (req, res) => {
 
   // knex.raw(`INSERT INTO users_maps (user_id, map_id, favourite, contribution) values (${req.query.user_id}, ${req.query.map_id}, ${req.query.state}, false)
-  //           ON CONFLICT (users_maps_idx) DO UPDATE SET favourite = ${req.query.state}`)
+  //            ON CONFLICT (users_maps_idx) DO UPDATE SET favourite = ${req.query.state};`)
 
   knex('users_maps')
   .where({
     map_id: req.query.map_id,
-    user_id: req.query.user_id})
-  .update({favourite : req.query.state})
-  .returning('user_id')
-  .then( (user_id)=> {
-    res.send(user_id);
+    user_id: req.query.user_id
+  })
+  .select('favourite')
+  .then((results) =>{
+
+    if (results.length === 0) {
+      knex('users_maps')
+      .insert({
+        user_id: req.query.user_id,
+        map_id: req.query.map_id,
+        favourite: req.query.state,
+        contribution: false
+      })
+      .then((results) => {
+        res.json(results)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    } else {
+      knex('users_maps')
+      .where({
+        map_id: req.query.map_id,
+        user_id: req.query.user_id})
+      .update({favourite : req.query.state})
+      .returning('user_id')
+      .then( (user_id)=> {
+        res.json(results)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
   })
 })
 
