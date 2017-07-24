@@ -69,6 +69,9 @@ $scalesize: 1.7;
   -ms-transform: scale($scalesize);
   transform: scale($scalesize);
 }
+.dropdown-menu{
+  width: 500px;
+}
 
 @media (max-width: 500px) {
   width: 25%;

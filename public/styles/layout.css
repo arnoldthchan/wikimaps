@@ -71,6 +71,10 @@ i.glyphicon-heart {
   transform: scale(1.7);
 }
 
+.dropdown-menu {
+  width: 500px;
+}
+
 @media (max-width: 500px) {
   width: 25%;
 }

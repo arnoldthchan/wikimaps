@@ -43,6 +43,30 @@ $(document).ready(() => {
     $("#sidebar").toggleClass("active");
   })
 
+  $("nav").on("click", "#new-point", (event) =>{
+    let input = $(".new-point").val()
+    console.log(input);
+    if (input){
+      $.ajax({
+        url: "map",
+        method: "POST",
+        data:{
+         creator_id : userJSON.id,
+         title      : input,
+         latitude   : 43.653200,
+         longitude  : -79.383200
+        },
+        success: function() {
+          console.log(`${input} created!`);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    }
+  })
+
+
   $("body").on("click", ".glyphicon-heart", (event) =>{
     event.stopPropagation();
     let mapID = $(event.target).parent(".listItem").data("mapid");
