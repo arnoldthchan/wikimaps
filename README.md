@@ -1,9 +1,9 @@
 # :round_pushpin: Wikimaps :round_pushpin:
 
 ## Written by:
-* Jonathan Lam
-* Arnold Chan
-* Tak Ng
+* [Jonathan Lam](https://github.com/mstop4)
+* [Arnold Chan](https://github.com/arnoldthchan)
+* [Tak Ng](https://github.com/takng)
 
 # :round_pushpin: Getting Started :round_pushpin: 
 
