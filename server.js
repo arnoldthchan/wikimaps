@@ -74,6 +74,10 @@ app.get("/contributions/:user_id", (req, res) => {
 })
 
 app.put("/favourites", (req, res) => {
+
+  // knex.raw(`INSERT INTO users_maps (user_id, map_id, favourite, contribution) values (${req.query.user_id}, ${req.query.map_id}, ${req.query.state}, false)
+  //           ON CONFLICT (users_maps_idx) DO UPDATE SET favourite = ${req.query.state}`)
+
   knex('users_maps')
   .where({
     map_id: req.query.map_id,

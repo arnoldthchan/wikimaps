@@ -48,6 +48,7 @@ $(document).ready(() => {
 
     let isLiked = $(event.target).hasClass("liked");
 
+    console.log("SDFSDFDFDSFSD");
     if (userJSON.id !== 0) {
       $.ajax({
         url: `/favourites?user_id=${userJSON.id}&map_id=${mapID}&state=${isLiked}`,
