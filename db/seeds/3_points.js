@@ -40,6 +40,14 @@ exports.seed = function(knex, Promise) {
       latitude: 43.8971,
       longitude: -78.8658,
       map_id: 2,
-      user_id: 1})
+      user_id: 2}),
+
+    knex('points').insert({ title: 'Canadian Automotive Museum',
+      description: 'Cars are here.',
+      image: 'canautomuseum.jpg',
+      latitude: 43.894962,
+      longitude: -78.862111,
+      map_id: 2,
+      user_id: 2})
   ]);
 };
